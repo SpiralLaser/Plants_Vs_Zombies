@@ -5,7 +5,7 @@ public class GameBoard {
  * Constructor method for GameBoard. Creates an 5x8 board and a new PvZGame.
  */
 
-    Unit[][] board = new Unit[8][8]; 
+    Unit[][] board = new Unit[5][8]; 
     PvZGame game;
     
     public GameBoard(PvZGame newGame)
@@ -45,6 +45,12 @@ public class GameBoard {
         board[location.getRow()][location.getCol()]=null;
 
     }
+    
+    public void endTurn()
+    {
+    	
+    }
+    
     /**
      * Print's the current board to the display using it's toString method
      */

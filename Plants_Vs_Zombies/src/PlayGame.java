@@ -21,6 +21,7 @@ public class PlayGame
     {
         System.out.println("Welcome to Plants vs Zombies! \nThe first position on the board is 0 and the last position is 7\n(e.g, 0,0 is in the top left corner of the board)");
         scan = new Scanner(System.in);
+        ArrayList<Unit> plantList = new ArrayList<Unit>;
         
         int numTurns = 0;
         boolean repeat = true;
