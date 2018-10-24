@@ -66,7 +66,7 @@ public class GridCell {
 	}
 	
 	/**
-	 * Removes the zombie at the beginning of the list as if it died
+	 * Removes the zombie at the start of the list as if it died
 	 */
 	public void removeAndKillZombie() {
 		zombies.removeFirst();
