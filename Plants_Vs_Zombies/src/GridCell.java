@@ -19,7 +19,7 @@ public class GridCell {
 	 * Getter method to see the visitors on the current grid cell
 	 * @return ArrayList of visitors on the grid 
 	 **/
-	public LinkedList<Object> getZombies(){
+	public LinkedList<Zombie> getZombies(){
 		return zombies;
 	}
 	
@@ -34,7 +34,7 @@ public class GridCell {
 	/*
 	 * Adds a zombie to the linked list of zombies for that grid cell
 	 */
-	public void addZombie(Zombies zombie) {
+	public void addZombie(Zombie zombie) {
 		zombies.add(zombie);
 	}
 	
