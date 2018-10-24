@@ -108,7 +108,7 @@ public class PlayGame
                 System.out.println("That is an invalid destination.");
                 continue;
             }             
-           System.out.println("Test");
+          
             numTurns++; //increase turn count by 1
             //end of turn
             for (int i=0; i < plantList.size(); i++)
