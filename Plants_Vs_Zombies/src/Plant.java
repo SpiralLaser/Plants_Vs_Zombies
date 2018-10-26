@@ -1,18 +1,18 @@
 import java.util.*;
-public abstract class Unit {
+public abstract class Plant {
 	
 	    private PvZGame game;
-	    private UnitLocation location;
-	    protected char id;
+	    private GridCell location;
 	    protected String race;
+	    private int plantHealth;
 
-	    public Unit(UnitLocation initialLocation, PvZGame newGame)
+	    public Plant(GridCell initialLocation, PvZGame newGame)
 	    {
 
 	        location = initialLocation;
 	        game = newGame;
-	        game.getBoard().placeUnitAt(this,location);
-
+	        game.getBoard().placePlantAt(this,location);
+	        plantHealth = 1;
 	    }
 
 	    /**
@@ -35,7 +35,7 @@ public abstract class Unit {
 	    /**
 	     * Sets this unit's location to the passed UnitLocation
 	     */    
-	    public void setLocation(UnitLocation newLocation)
+	    public void setLocation(GridCell newLocation)
 	    {
 	        location = newLocation;
 	    }
@@ -43,7 +43,7 @@ public abstract class Unit {
 	    /**
 	     * Returns this unit's location
 	     */
-	    public UnitLocation getLocation()
+	    public GridCell getLocation()
 	    {
 	        return location;
 	    }
@@ -59,6 +59,29 @@ public abstract class Unit {
 	    public void endTurn()
 	    {
 	    	
+	    }
+	    
+	    /**
+	     * Plant takes i damage
+	     * @param i
+	     */
+	    public void takeDamage(int i)
+	    {
+	    	plantHealth -= i;
+	    	System.out.println(plantHealth);
+	    }
+	    
+	    /**
+	     * Checks if plant has run out of health
+	     * @return boolean if plant is alive or not
+	     */
+	    public boolean isAlive()
+	    {
+	    	if (plantHealth <= 0)
+	    	{
+	    		return false;
+	    	}
+	    	return true;
 	    }
 	}
 

@@ -1,4 +1,3 @@
-
 public class PvZGame {
 
 		private boolean play1Turn;
@@ -6,7 +5,7 @@ public class PvZGame {
 		GameBoard board = new GameBoard(this);
 		
 		
-		int sunlight = 4;						//starting sunlight. Currently costs 4 sunlight to plant a sunflower.
+		int sunlight = 50;						//starting sunlight. Currently costs 4 sunlight to plant a sunflower.
 
 		/**
 		 * Constructor for objects of class PvZGame. Places a knight piece at default location 1,1

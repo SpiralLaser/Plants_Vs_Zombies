@@ -4,18 +4,26 @@ public class GameBoard {
  * Constructor method for GameBoard. Creates an 5x8 board and a new PvZGame.
  */
 
-    Unit[][] board = new Unit[8][8]; 
+    GridCell[][] board = new GridCell[8][8]; 
     PvZGame game;
     
     public GameBoard(PvZGame newGame)
     {
         this.game = newGame; 
+        
+        for (int i=0; i < 5;i++)
+        {
+        	for (int j=0; j < board.length; j++)
+        	{
+        		board[i][j] = new GridCell(i,j);        		
+        	}     	
+        }
     }
 
     /**
      * Returns the unit at the given location
      */
-    public Unit getPieceAt(UnitLocation location)
+    public GridCell getPieceAt(GridCell location)
     {
         int row = location.getRow();
         int col = location.getCol();
@@ -27,23 +35,28 @@ public class GameBoard {
     /**
      * Places unit at the passed location if the location is not null
      */
-    public void placeUnitAt(Unit piece, UnitLocation location)
+    public void placePlantAt(Plant plant, GridCell location)
     {
         int r = location.getRow();
         int c = location.getCol();
-        removePiece(piece.getLocation());
-        removePiece(location);
-        board[r][c] = piece;
-
+        board[r][c].addPlant(plant);
     }
-    /**
-     * Removes the unit from the passed location
-     */
-    public void removePiece(UnitLocation location)
+    
+    public void placeZombieAt(Zombie zombie, GridCell location)
     {
-        board[location.getRow()][location.getCol()]=null;
-
+        int r = location.getRow();
+        int c = location.getCol();
+        board[r][c].addZombie(zombie);
     }
+    
+    /**
+     * Clears the entire GridCell completely
+     */
+    public void clear(GridCell gridCell)
+    {
+        board[gridCell.getRow()][gridCell.getCol()]=null;
+    }
+    
     /**
      * Print's the current board to the display using it's toString method
      */
@@ -58,27 +71,33 @@ public class GameBoard {
      */
     public String toString()
     {
+    	String piece = "";
         System.out.println("0 1 2 3 4 5 6 7"); //prints out the column numbers above the board
         for (int i=0; i< 5; i++) 
         {
-
             for (int j=0; j<board.length;j++)
             {
 
-                if (board[i][j] == null)
+                if (board[i][j].isEmpty())
                 {
                     System.out.print("- "); //if there is no piece at the location, print out a -
                 }
                 else 
-                {
-                    UnitLocation loc = new UnitLocation(i,j);
-                    String piece = game.getBoard().getPieceAt(loc).getID();
+                {              	
+                    GridCell loc = new GridCell(i,j);
+                    if (game.getBoard().getPieceAt(loc).getPlant() != null)
+                    {
+                    	piece = game.getBoard().getPieceAt(loc).getPlant().getID();
+                    }
+                    
+                    else
+                    {
+                    	piece = game.getBoard().getPieceAt(loc).getZombie().getID();
+                    }
                     System.out.print(piece + " "); // if a piece is at the location, print a letter on the board instead
                 }
-
             }
             System.out.println(" "+i); // print out the row numbers to the right of the board
-
         }
         return null;
 
