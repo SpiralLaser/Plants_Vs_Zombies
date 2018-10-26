@@ -56,5 +56,10 @@ public abstract class Unit {
 	        return game;
 	    }
 
+
+	    public void endTurn()
+	    {
+	    	
+	    }
 	}
 

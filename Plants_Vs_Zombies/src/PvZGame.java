@@ -4,7 +4,9 @@ public class PvZGame {
 		private boolean play1Turn;
 
 		GameBoard board = new GameBoard(this);
-
+		
+		
+		int sunlight = 4;						//starting sunlight. Currently costs 4 sunlight to plant a sunflower.
 
 		/**
 		 * Constructor for objects of class PvZGame. Places a knight piece at default location 1,1
@@ -31,21 +33,28 @@ public class PvZGame {
 		}
 
 		/**
-		 * Gets the player's turn in the game
-		 */ 
-		public boolean getTurn()
+		 * Increases sunlight
+		 */
+		public void increaseSunlight()
 		{
-			return play1Turn;
+			sunlight++;
 		}
 
 		/**
-		 * Turn has ended, so change the turn to the other player's
-		 */
-		public void changeTurn()
+		 * Decreases sunlight
+		 */		
+		public void decreaseSunlight(int i)
 		{
-			play1Turn = !play1Turn;
+			sunlight = sunlight - i;
 		}
-
-
+		
+		/**
+		 * Returns current sunflower amount
+		 * @return sunlight
+		 */
+		public int getSunlight()
+		{
+			return sunlight;
+		}
 	}
 
