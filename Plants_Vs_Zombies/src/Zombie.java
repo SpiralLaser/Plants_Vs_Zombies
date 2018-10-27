@@ -14,7 +14,6 @@ public class Zombie {
 	private GridCell location;
 	private PvZGame game;
 	
-	
 	/* Constructor for the Zombie Class */
 	public Zombie (GridCell initialLocation, PvZGame newGame) {		
 		zombieSpeed = 1;
