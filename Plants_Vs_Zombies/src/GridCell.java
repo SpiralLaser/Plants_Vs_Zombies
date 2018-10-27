@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class GridCell {
 
 	private LinkedList<Zombie> zombies;
@@ -124,7 +122,7 @@ public class GridCell {
 	}
 
 	/**
-	 * Sets the piece's location to a new UnitLocation
+	 * Sets the piece's location to a new GridCell
 	 */
 	public void setLocation(int r, int c)
 	{
@@ -133,7 +131,7 @@ public class GridCell {
 	}
 
 	/**
-	 * Checks if the passed UnitLocation is the same as this unit's UnitLocation
+	 * Checks if the passed GridCell is the same as this unit's GridCell
 	 */
 	public boolean equals(GridCell ul)
 	{

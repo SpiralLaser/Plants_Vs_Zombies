@@ -14,6 +14,7 @@ public class Zombie {
 	private GridCell location;
 	private PvZGame game;
 	
+	
 	/* Constructor for the Zombie Class */
 	public Zombie (GridCell initialLocation, PvZGame newGame) {		
 		zombieSpeed = 1;
@@ -71,21 +72,36 @@ public class Zombie {
 	 * using the gameOver variable
 	 */
 	
+	/**
+	 * Returns a string so the board knows what to print
+	 * @return
+	 */
 	public String getID()
 	{
 		return "Z";
 	}
 	
+	/**
+	 * Returns this zombie's location
+	 * @return
+	 */
 	public GridCell getLocation()
 	{
 		return location;
 	}
 	
+	/**
+	 * Updates this zombie's location
+	 * @param loc
+	 */
 	public void updateLocation(GridCell loc)
 	{
 		location = loc;
 	}
-	
+		
+	/**
+	 * Actions that the zombie does at end of the turn
+	 */
 	public void endTurn()
 	{
 		
@@ -105,8 +121,7 @@ public class Zombie {
 			Zombie zomb = game.getBoard().getPieceAt(location).removeZombie();		
 			game.getBoard().placeZombieAt(zomb, destination);
 			this.updateLocation(destination);
-		}
-		
+		}		
 	}
 	
 	/**

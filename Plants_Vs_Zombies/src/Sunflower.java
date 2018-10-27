@@ -4,7 +4,6 @@ public class Sunflower extends Plant {
 	public Sunflower(GridCell initialLocation, PvZGame newGame) {
 
 		super(initialLocation, newGame);
-		super.race = "Plant";
 		game = newGame;
 	}
 	
@@ -15,14 +14,7 @@ public class Sunflower extends Plant {
     {
         return "S";
     }
-    
-    /**
-     * Returns the race of this unit
-     */
-    public String getRace()
-    {
-    	return race;
-    }
+
 
     public void endTurn()
     {

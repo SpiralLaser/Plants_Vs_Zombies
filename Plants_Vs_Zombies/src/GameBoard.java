@@ -57,6 +57,18 @@ public class GameBoard {
         board[gridCell.getRow()][gridCell.getCol()]=null;
     }
     
+    public GridCell findZombie(int r, int c)
+    {
+    	for (; c<7;c++)
+    	{
+    		if (!board[r][c].getZombies().isEmpty())
+    		{
+    			return board[r][c];
+    		}
+    	}
+    	return null;
+    }
+    
     /**
      * Print's the current board to the display using it's toString method
      */

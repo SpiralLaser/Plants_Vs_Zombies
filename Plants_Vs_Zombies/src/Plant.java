@@ -1,11 +1,14 @@
-import java.util.*;
 public abstract class Plant {
 	
 	    private PvZGame game;
 	    private GridCell location;
-	    protected String race;
 	    private int plantHealth;
 
+	    /**
+	     * Plant superclass for all plant objects
+	     * @param initialLocation is the starting position of the plant on the board
+	     * @param newGame is reference to the current game
+	     */
 	    public Plant(GridCell initialLocation, PvZGame newGame)
 	    {
 
@@ -23,15 +26,6 @@ public abstract class Plant {
 	        return "ID";
 	    }
 	    
-	    /**
-	     * Returns the race of this unit. Is only used so that the child can override this method
-	     * @return race
-	     */
-	    public String getRace()
-	    {
-	    	return race;
-	    }
-
 	    /**
 	     * Sets this unit's location to the passed UnitLocation
 	     */    
