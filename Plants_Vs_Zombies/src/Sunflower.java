@@ -1,11 +1,15 @@
-public class Sunflower extends Unit {
+public class Sunflower extends Plant {
 	PvZGame game;
 
-	public Sunflower(UnitLocation initialLocation, PvZGame newGame) {
+	/**
+	 * Constructor for Sunflower plant class
+	 * @author Kevin Sun
+	 * @param initialLocation
+	 * @param newGame
+	 */
+	public Sunflower(Location initialLocation, PvZGame newGame) {
 
 		super(initialLocation, newGame);
-		super.id = 'S';
-		super.race = "Plant";
 		game = newGame;
 	}
 	
@@ -16,16 +20,7 @@ public class Sunflower extends Unit {
     {
         return "S";
     }
-    
-    /**
-     * Returns the race of this unit
-     */
-    public String getRace()
-    {
-    	return race;
-    }
 
-	//add functionality of producing sunlight every x turns
 
     public void endTurn()
     {

@@ -1,4 +1,3 @@
-
 public class Zombie {
 	/* The zombie's movement speed */
 	private int zombieSpeed;
@@ -12,11 +11,19 @@ public class Zombie {
 	/* How many zombies there are across the game */
 	private static int zombieCount = 0;
 	
-	/* Constructor for the Zombie Class */
-	public Zombie () {		
-		zombieSpeed = 5;
-		zombieHealth = 10;
+	private Location location;
+	private PvZGame game;
+	
+	
+	/** Constructor for the Zombie Class 
+	 * @author Leo Paz
+	 * */
+	public Zombie (Location initialLocation, PvZGame newGame) {		
+		zombieSpeed = 1;
+		zombieHealth = 3;
 		zombieCount++;
+		location = initialLocation;
+		game = newGame;
 	}
 	/*
 	 * Sets the movement speed of the zombie
@@ -67,4 +74,71 @@ public class Zombie {
 	 * using the gameOver variable
 	 */
 	
+	/**
+	 * Returns a string so the board knows what to print
+	 * @return
+	 */
+	public String getID()
+	{
+		return "Z";
+	}
+	
+	/**
+	 * Returns this zombie's location
+	 * @return
+	 */
+	public Location getLocation()
+	{
+		return location;
+	}
+	
+	/**
+	 * Updates this zombie's location
+	 * @param loc
+	 */
+	public void updateLocation(Location loc)
+	{
+		location = loc;
+	}
+	
+	
+	/**
+	 * Actions that the zombie does at end of the turn
+	 */
+	public void endTurn()
+	{
+		
+		int col = this.getLocation().getCol();		
+		int row = this.getLocation().getRow();
+		Location destination = new Location(row, col - 1);
+		
+		//there is a plant in the next space, so start damaging it
+		if (game.getBoard().getCell(destination).getPlant() != null)
+		{
+			Plant plant = game.getBoard().getCell(destination).getPlant();
+			plant.takeDamage(1);
+		}
+		//otherwise move to the next space
+		else
+		{
+			Zombie zomb = game.getBoard().getCell(location).removeZombie();		
+			game.getBoard().placeZombieAt(zomb, destination);
+			this.updateLocation(destination);
+		}
+		
+	}
+	
+	/**
+	 * Checks if the zombie has reached the end, if it has the player loses.
+	 * @return boolean if zombie has reached the end
+	 */
+	public boolean checkLose()
+	{
+		int col = this.getLocation().getCol();		
+		if (col == 0)
+		{
+			return true;
+		}
+		return false;
+	}
 }
