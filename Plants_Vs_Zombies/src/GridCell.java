@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class GridCell {
 
 	private LinkedList<Zombie> zombies;
@@ -10,7 +12,7 @@ public class GridCell {
 	 * @author Leo Paz
 	 **/
 	public GridCell (int newRow, int newCol) {
-		zombies = new LinkedList<>();
+		zombies = new LinkedList<Zombie>();
 		plant = null;
 		row = newRow;
 		col = newCol;
