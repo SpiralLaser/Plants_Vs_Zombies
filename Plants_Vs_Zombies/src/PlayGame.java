@@ -8,6 +8,7 @@ public class PlayGame
 
 	/**
 	 * Constructor for objects of class PlayGame
+	 * @author Kevin Sun, Tri Nhan
 	 */
 	public PlayGame()
 	{
@@ -34,7 +35,7 @@ public class PlayGame
 		int numTurns = 1;
 		boolean repeat = true;
 		boolean playerWin = false;
-		GridCell location;
+		Location location;
 		PvZGame game = new PvZGame();
 		Plant unit = null;
 		String plantID = "";
@@ -102,8 +103,8 @@ public class PlayGame
 					if (!plantList.get(i).isAlive())
 					{
 						location = plantList.get(i).getLocation();
-						plantList.remove(game.getBoard().getPieceAt(location).getPlant());
-						game.getBoard().getPieceAt(location).removePlant();
+						plantList.remove(game.getBoard().getCell(location).getPlant());
+						game.getBoard().getCell(location).removePlant();
 					}
 				}
 
@@ -113,7 +114,7 @@ public class PlayGame
 					if (zombieList.get(i).getHealth() <= 0)
 					{
 						location = zombieList.get(i).getLocation();
-						zombieList.remove(game.getBoard().getPieceAt(location).removeZombie());
+						zombieList.remove(game.getBoard().getCell(location).removeZombie());
 						zombieCount--;
 					}
 				}
@@ -154,10 +155,10 @@ public class PlayGame
 			if (s.matches("[0-4],[0-7]"))
 			{
 				locationStrings = s.split(",");
-				GridCell destination = new GridCell(Integer.parseInt(locationStrings[0]), Integer.parseInt(locationStrings[1]));
+				Location destination = new Location(Integer.parseInt(locationStrings[0]), Integer.parseInt(locationStrings[1]));
 
 				//if there is already a plant on that tile
-				if (game.getBoard().getPieceAt(destination) != null && game.getBoard().getPieceAt(destination).getPlant() !=null)
+				if (game.getBoard().getCell(destination).getPlant() !=null)
 				{
 					System.out.println("You cannot plant more than 1 plant per tile");
 					continue;
@@ -172,7 +173,7 @@ public class PlayGame
 				{
 					unit = new Peashooter(destination, game);
 				}
-				game.getBoard().placePlantAt(unit, destination);
+				game.getBoard().getCell(destination).addPlant(unit);;
 				plantList.add(unit);
 				game.decreaseSunlight(4);
 
@@ -210,8 +211,8 @@ public class PlayGame
 				if (!plantList.get(i).isAlive())
 				{
 					location = plantList.get(i).getLocation();
-					plantList.remove(game.getBoard().getPieceAt(location).getPlant());
-					game.getBoard().getPieceAt(location).removePlant();
+					plantList.remove(game.getBoard().getCell(location).getPlant());
+					game.getBoard().getCell(location).removePlant();
 
 				}
 			}
@@ -222,13 +223,13 @@ public class PlayGame
 				if (zombieList.get(i).getHealth() <= 0)
 				{
 					location = zombieList.get(i).getLocation();
-					zombieList.remove(game.getBoard().getPieceAt(location).removeZombie());
+					zombieList.remove(game.getBoard().getCell(location).removeZombie());
 					zombieCount--;
 				}
 			}
 
 			//create a zombie at a random row only when a plant is placed
-			GridCell loc = new GridCell(randomRowNum(),7);
+			Location loc = new Location(randomRowNum(),7);
 			Zombie zombie = new Zombie(loc, game);
 			game.getBoard().placeZombieAt(zombie, loc);
 			zombieList.add(zombie);

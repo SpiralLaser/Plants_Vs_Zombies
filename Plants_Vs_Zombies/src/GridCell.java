@@ -4,9 +4,10 @@ public class GridCell {
 	private int row, col;
 	private Plant plant;
 
-	/* 
+	/** 
 	 * Constructor for the grid class that takes a
 	 * zombie or plant and placed it on the grid space 
+	 * @author Leo Paz
 	 **/
 	public GridCell (int newRow, int newCol) {
 		zombies = new LinkedList<>();

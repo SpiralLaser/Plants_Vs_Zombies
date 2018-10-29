@@ -1,15 +1,16 @@
 public abstract class Plant {
 	
 	    private PvZGame game;
-	    private GridCell location;
+	    private Location location;
 	    private int plantHealth;
 
 	    /**
 	     * Plant superclass for all plant objects
 	     * @param initialLocation is the starting position of the plant on the board
 	     * @param newGame is reference to the current game
+	     * @author Kevin Sun
 	     */
-	    public Plant(GridCell initialLocation, PvZGame newGame)
+	    public Plant(Location initialLocation, PvZGame newGame)
 	    {
 
 	        location = initialLocation;
@@ -29,7 +30,7 @@ public abstract class Plant {
 	    /**
 	     * Sets this unit's location to the passed UnitLocation
 	     */    
-	    public void setLocation(GridCell newLocation)
+	    public void setLocation(Location newLocation)
 	    {
 	        location = newLocation;
 	    }
@@ -37,7 +38,7 @@ public abstract class Plant {
 	    /**
 	     * Returns this unit's location
 	     */
-	    public GridCell getLocation()
+	    public Location getLocation()
 	    {
 	        return location;
 	    }

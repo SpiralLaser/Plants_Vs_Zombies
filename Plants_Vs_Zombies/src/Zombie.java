@@ -11,12 +11,14 @@ public class Zombie {
 	/* How many zombies there are across the game */
 	private static int zombieCount = 0;
 	
-	private GridCell location;
+	private Location location;
 	private PvZGame game;
 	
 	
-	/* Constructor for the Zombie Class */
-	public Zombie (GridCell initialLocation, PvZGame newGame) {		
+	/** Constructor for the Zombie Class 
+	 * @author Leo Paz
+	 * */
+	public Zombie (Location initialLocation, PvZGame newGame) {		
 		zombieSpeed = 1;
 		zombieHealth = 3;
 		zombieCount++;
@@ -85,7 +87,7 @@ public class Zombie {
 	 * Returns this zombie's location
 	 * @return
 	 */
-	public GridCell getLocation()
+	public Location getLocation()
 	{
 		return location;
 	}
@@ -94,11 +96,12 @@ public class Zombie {
 	 * Updates this zombie's location
 	 * @param loc
 	 */
-	public void updateLocation(GridCell loc)
+	public void updateLocation(Location loc)
 	{
 		location = loc;
 	}
-		
+	
+	
 	/**
 	 * Actions that the zombie does at end of the turn
 	 */
@@ -107,21 +110,22 @@ public class Zombie {
 		
 		int col = this.getLocation().getCol();		
 		int row = this.getLocation().getRow();
-		GridCell destination = new GridCell(row, col - 1);
+		Location destination = new Location(row, col - 1);
 		
 		//there is a plant in the next space, so start damaging it
-		if (game.getBoard().getPieceAt(destination).getPlant() != null)
+		if (game.getBoard().getCell(destination).getPlant() != null)
 		{
-			Plant plant = game.getBoard().getPieceAt(destination).getPlant();
+			Plant plant = game.getBoard().getCell(destination).getPlant();
 			plant.takeDamage(1);
 		}
 		//otherwise move to the next space
 		else
 		{
-			Zombie zomb = game.getBoard().getPieceAt(location).removeZombie();		
+			Zombie zomb = game.getBoard().getCell(location).removeZombie();		
 			game.getBoard().placeZombieAt(zomb, destination);
 			this.updateLocation(destination);
-		}		
+		}
+		
 	}
 	
 	/**
