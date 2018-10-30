@@ -26,4 +26,5 @@ Next iteration will have a GUI to input commands rather than using text commands
 
 
 UML Class Diagram: Adam Labelle
+
 UML Sequence Diagram: Leo Paz and Kevin Sun
