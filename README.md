@@ -2,6 +2,8 @@
 
 Authors: Kevin Sun, Tri Nhan, Leo Paz, Adam Labelle
 
+The .zip file is a direct clone from the master project in Github. Extract the contents to a new folder, then create a new Java project and set the source to that folder. Can also use other methods.
+
 Run PlayGame to start the game.
 Any words in ' ' are the exact spelling of what you must type to proceed with the program (e.g type in 'quit' without the '' to quit the program)
 Typing 'place' will allow you to specify a plant to plant, either a sunflower or a peashooter. It costs 4 sunlight to plant something. You can then specify a y,x coordinate where you want to plant it. 
