@@ -1,4 +1,18 @@
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class GameBoard {
 
@@ -9,10 +23,15 @@ public class GameBoard {
 
 	ArrayList<ArrayList<GridCell>> board = new ArrayList<ArrayList<GridCell>>(); 
 	PvZGame game;
+	GameView view;
+	
+	
 
 	public GameBoard(PvZGame newGame)
 	{
+		
 		this.game = newGame; 
+
 		for (int r = 0; r < 5; r++)
 		{
 			board.add(new ArrayList<GridCell>());
@@ -21,6 +40,8 @@ public class GameBoard {
 				board.get(r).add(new GridCell(r, c));
 			}
 		}
+		
+		view = new GameView();
 	}
 
 	public GridCell getCell(Location l) {
