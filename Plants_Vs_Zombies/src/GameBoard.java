@@ -9,10 +9,15 @@ public class GameBoard {
 
 	ArrayList<ArrayList<GridCell>> board = new ArrayList<ArrayList<GridCell>>(); 
 	PvZGame game;
+	GameView view;
+	
+	
 
 	public GameBoard(PvZGame newGame)
 	{
+		
 		this.game = newGame; 
+
 		for (int r = 0; r < 5; r++)
 		{
 			board.add(new ArrayList<GridCell>());
@@ -21,6 +26,8 @@ public class GameBoard {
 				board.get(r).add(new GridCell(r, c));
 			}
 		}
+		
+		view = new GameView();
 	}
 
 	public GridCell getCell(Location l) {
