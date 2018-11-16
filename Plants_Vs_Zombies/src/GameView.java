@@ -26,9 +26,7 @@ public class GameView implements PvZListener{
 	
 	
 	public GameView(){
-        buttons = new JButton[5][8];
-
-        
+        buttons = new JButton[5][8];   
         
         JFrame tFrame = new JFrame("Plants Vs. Zombies");
        tFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //quit program when closing
@@ -49,10 +47,7 @@ public class GameView implements PvZListener{
        fileMenu.add(quitItem);
        
        newItem = new JMenuItem("New/Reset Game");
-       fileMenu.add(newItem);
-       
-       
-       
+       fileMenu.add(newItem);  
        
        
        // Create layout for the the upper UI
@@ -78,7 +73,6 @@ public class GameView implements PvZListener{
        sunlight.setHorizontalAlignment(JTextField.CENTER);
        topPanel.add(sunlight);
        
-       //
        //
        //sunlight.setText(String.valueOf(game.getSunlight())); 
        //
@@ -149,8 +143,7 @@ public class GameView implements PvZListener{
        
        contentPane.add(buttonPanel);
        
-       
-       
+           
        tFrame.setResizable(false); // Don't let the board to be resized to look too ugly
        tFrame.setVisible(true);
        tFrame.pack();
