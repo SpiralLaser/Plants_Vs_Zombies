@@ -1,15 +1,15 @@
 public class Peashooter extends Plant {
-	PvZGame game;
+	PvZModel game;
 
 	/**
 	 * Constructor 
-	 * @param initialLocation
+	 * @param initialGridCell
 	 * @param newGame
 	 * @author Kevin Sun
 	 */
-	public Peashooter(Location initialLocation, PvZGame newGame) {
+	public Peashooter(GridCell initialGridCell, PvZModel newGame) {
 
-		super(initialLocation, newGame);
+		super(initialGridCell, newGame);
 		game = newGame;
 	}
 	
@@ -26,7 +26,7 @@ public class Peashooter extends Plant {
      */
     public void endTurn()
     {
-    	GridCell cell = game.getBoard().findZombie(this.getLocation().getRow(), this.getLocation().getCol());
+    	GridCell cell = game.findZombie(this.getGridCell().getRow(), this.getGridCell().getCol());
     	if (cell == null)
     	{
     		//do nothing if there is no zombie on this row
