@@ -19,14 +19,14 @@ public class PvZEvent extends EventObject {
 	}
 	
 	public int getColumn() {
-		
+		return cell.getCol();
 	}
 	
 	public int getRow() {
-		
+		return cell.getRow();
 	}
 	
 	public String getType() {
-		
+		return type;
 	}
 }
