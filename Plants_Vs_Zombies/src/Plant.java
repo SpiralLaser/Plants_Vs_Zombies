@@ -1,21 +1,23 @@
+import java.util.Locale;
+
 public abstract class Plant {
 	
-	    private PvZGame game;
-	    private Location location;
+	    private PvZModel game;
+	    private GridCell GridCell;
 	    private int plantHealth;
 
 	    /**
 	     * Plant superclass for all plant objects
-	     * @param initialLocation is the starting position of the plant on the board
+	     * @param initialGridCell is the starting position of the plant on the board
 	     * @param newGame is reference to the current game
 	     * @author Kevin Sun
 	     */
-	    public Plant(Location initialLocation, PvZGame newGame)
+	    public Plant(GridCell initialGridCell, PvZModel newGame)
 	    {
 
-	        location = initialLocation;
+	        GridCell = initialGridCell;
 	        game = newGame;
-	        game.getBoard().placePlantAt(this,location);
+	        game.placePlantAt(this,GridCell);
 	        plantHealth = 1;
 	    }
 
@@ -28,25 +30,25 @@ public abstract class Plant {
 	    }
 	    
 	    /**
-	     * Sets this unit's location to the passed UnitLocation
+	     * Sets this unit's GridCell to the passed UnitGridCell
 	     */    
-	    public void setLocation(Location newLocation)
+	    public void setGridCell(GridCell newGridCell)
 	    {
-	        location = newLocation;
+	        GridCell = newGridCell;
 	    }
 	    
 	    /**
-	     * Returns this unit's location
+	     * Returns this unit's GridCell
 	     */
-	    public Location getLocation()
+	    public GridCell getGridCell()
 	    {
-	        return location;
+	        return GridCell;
 	    }
 
 	    /**
 	     * Returns the game that this unit is playing on
 	     */
-	    public PvZGame getGame()
+	    public PvZModel getGame()
 	    {
 	        return game;
 	    }

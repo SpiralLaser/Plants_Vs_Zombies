@@ -11,18 +11,18 @@ public class Zombie {
 	/* How many zombies there are across the game */
 	private static int zombieCount = 0;
 	
-	private Location location;
-	private PvZGame game;
+	private GridCell GridCell;
+	private PvZModel game;
 	
 	
 	/** Constructor for the Zombie Class 
 	 * @author Leo Paz
 	 * */
-	public Zombie (Location initialLocation, PvZGame newGame) {		
+	public Zombie (GridCell initialGridCell, PvZModel newGame) {		
 		zombieSpeed = 1;
 		zombieHealth = 3;
 		zombieCount++;
-		location = initialLocation;
+		GridCell = initialGridCell;
 		game = newGame;
 	}
 	/*
@@ -84,21 +84,21 @@ public class Zombie {
 	}
 	
 	/**
-	 * Returns this zombie's location
+	 * Returns this zombie's GridCell
 	 * @return
 	 */
-	public Location getLocation()
+	public GridCell getGridCell()
 	{
-		return location;
+		return GridCell;
 	}
 	
 	/**
-	 * Updates this zombie's location
+	 * Updates this zombie's GridCell
 	 * @param loc
 	 */
-	public void updateLocation(Location loc)
+	public void updateGridCell(GridCell loc)
 	{
-		location = loc;
+		GridCell = loc;
 	}
 	
 	
@@ -108,22 +108,22 @@ public class Zombie {
 	public void endTurn()
 	{
 		
-		int col = this.getLocation().getCol();		
-		int row = this.getLocation().getRow();
-		Location destination = new Location(row, col - 1);
+		int col = this.getGridCell().getCol();		
+		int row = this.getGridCell().getRow();
+		GridCell destination = new GridCell(row, col - 1);
 		
 		//there is a plant in the next space, so start damaging it
-		if (game.getBoard().getCell(destination).getPlant() != null)
+		if (game.getCell(destination).getPlant() != null)
 		{
-			Plant plant = game.getBoard().getCell(destination).getPlant();
+			Plant plant = game.getCell(destination).getPlant();
 			plant.takeDamage(1);
 		}
 		//otherwise move to the next space
 		else
 		{
-			Zombie zomb = game.getBoard().getCell(location).removeZombie();		
-			game.getBoard().placeZombieAt(zomb, destination);
-			this.updateLocation(destination);
+			Zombie zomb = game.getCell(GridCell).removeZombie();		
+			game.moveZombie(zomb, destination);
+			this.updateGridCell(destination);
 		}
 		
 	}
@@ -134,7 +134,7 @@ public class Zombie {
 	 */
 	public boolean checkLose()
 	{
-		int col = this.getLocation().getCol();		
+		int col = this.getGridCell().getCol();		
 		if (col == 0)
 		{
 			return true;

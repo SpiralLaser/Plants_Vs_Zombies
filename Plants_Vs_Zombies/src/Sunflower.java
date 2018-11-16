@@ -1,15 +1,15 @@
 public class Sunflower extends Plant {
-	PvZGame game;
+	PvZModel game;
 
 	/**
 	 * Constructor for Sunflower plant class
 	 * @author Kevin Sun
-	 * @param initialLocation
+	 * @param initialGridCell
 	 * @param newGame
 	 */
-	public Sunflower(Location initialLocation, PvZGame newGame) {
+	public Sunflower(GridCell initialGridCell, PvZModel newGame) {
 
-		super(initialLocation, newGame);
+		super(initialGridCell, newGame);
 		game = newGame;
 	}
 	
