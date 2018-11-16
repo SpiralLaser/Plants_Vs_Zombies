@@ -1,6 +1,9 @@
 import java.awt.event.*;
 import java.awt.*;
 
+import javax.swing.AbstractButton;
+import javax.swing.JButton;
+
 public class PvZController implements ActionListener {
 	
 	private PvZModel model;
@@ -15,6 +18,16 @@ public class PvZController implements ActionListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		model.play()
+		Object o = e.getSource();
+
+    	if(((JButton) o).getText().equals("S")) {
+    		model.placeSunflowerAt(x,y);
+    	}
+    	else if(((JButton) o).getText().equals("P")) {
+    		model.placePeashooterAt(x,y);
+    	}
+    	else {
+    		model.endTurn();
+    	}
 	}
 }
