@@ -166,4 +166,9 @@ public class GameView implements PvZListener{
 			case LOST: JOptionPane.showMessageDialog(null, "You Lost...", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
 		}
 	}
+	
+	public static void main(String[] args)
+	{
+		GameView view = new GameView();
+	}
 }

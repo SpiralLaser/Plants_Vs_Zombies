@@ -32,7 +32,7 @@ public class PvZModel {
 			}
 		}
 
-		view = new GameView();
+
 	}
 
 	public GridCell getCell(GridCell l) {
