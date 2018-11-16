@@ -1,3 +1,5 @@
+import java.util.Locale;
+
 public abstract class Plant {
 	
 	    private PvZGame game;

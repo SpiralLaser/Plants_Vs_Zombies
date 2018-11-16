@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
-public class GameView {
+public class GameView implements PvZListener {
 
 	private JLabel pText; // Label for different plants
 	   
@@ -91,7 +91,7 @@ public class GameView {
        
        //
        //
-       //sunlight.setText(String.valueOf(game.getSunlight())); 
+       // sunlight.setText(String.valueOf(game.getSunlight())); 
        //
        // Need to decide on where exactly to put/do this, will be done later
        
@@ -161,5 +161,14 @@ public class GameView {
        tFrame.setResizable(false); // Don't let the board to be resized to look too ugly
        tFrame.setVisible(true);
        tFrame.pack();
+	}
+	
+	public void handleTicTacToeEvent(PvZEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public static void main(String[] args) {
+		new GameView();
 	}
 }

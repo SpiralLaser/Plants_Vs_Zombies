@@ -10,8 +10,6 @@ public class GameBoard {
 	ArrayList<ArrayList<GridCell>> board = new ArrayList<ArrayList<GridCell>>(); 
 	PvZGame game;
 	GameView view;
-	
-	
 
 	public GameBoard(PvZGame newGame)
 	{
