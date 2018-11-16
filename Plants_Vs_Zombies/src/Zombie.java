@@ -122,7 +122,7 @@ public class Zombie {
 		else
 		{
 			Zombie zomb = game.getCell(GridCell).removeZombie();		
-			game.placeZombieAt(zomb, destination);
+			game.moveZombie(zomb, destination);
 			this.updateGridCell(destination);
 		}
 		

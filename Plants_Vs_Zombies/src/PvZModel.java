@@ -60,11 +60,17 @@ public class PvZModel {
 		
 	}
 
-	public void placeZombieAt(Zombie zombie, GridCell destination)
+	public void spawnZombieAt(Zombie zombie, GridCell destination)
 	{
 		board.get(destination.getRow()).get(destination.getCol()).addZombie(zombie);
 		zombieList.add(zombie);
 		System.out.println("Zombie added");
+	}
+	
+	public void moveZombie(Zombie zombie, GridCell destination)
+	{
+		board.get(destination.getRow()).get(destination.getCol()).addZombie(zombie);
+		System.out.println("Zombie moved");
 	}
 
 	public GridCell findZombie(int r, int c)

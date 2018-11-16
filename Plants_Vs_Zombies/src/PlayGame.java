@@ -1,4 +1,3 @@
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -76,59 +75,9 @@ public class PlayGame
 			//end current turn and move on to next turn
 			if (s.equals("end"))
 			{
-				//end of turn if user chooses to immediately end their turn. 
-				//Continue would normally skip the end turn at the end of the while loop so it is included here
-
-				//iterate to perform end of turn procedure for all zombies on board
-				for (int i=0; i < zombieList.size(); i++)
-				{
-					if (zombieList.get(i).checkLose())
-					{
-						repeat = false;
-					}
-					else
-					{
-						zombieList.get(i).endTurn();
-					}
-
-				}
-
-				//iterate to perform end of turn procedure for all plants on board
-				for (int i=0; i < plantList.size(); i++)
-				{
-					plantList.get(i).endTurn();					
-				}
-
-				//check all plants to see if they are still alive
-				for (int i=0; i < plantList.size(); i++)
-				{
-					if (!plantList.get(i).isAlive())
-					{
-						GridCell = plantList.get(i).getGridCell();
-						plantList.remove(game.getCell(GridCell).getPlant());
-						game.getCell(GridCell).removePlant();
-					}
-				}
-
-				//check all zombies to see if they are still alive
-				for (int i=0; i < zombieList.size(); i++)
-				{
-					if (zombieList.get(i).getHealth() <= 0)
-					{
-						GridCell = zombieList.get(i).getGridCell();
-						zombieList.remove(game.getCell(GridCell).removeZombie());
-						zombieCount--;
-					}
-				}
+				game.endTurn();
 				
-				//end of wave condition. Only if number of turns has reached a certain point and there are no more zombies on the board
-				if (numTurns >= 5 && zombieCount == 0)
-				{
-					repeat = false;
-					playerWin = true;
-				}
-					
-				numTurns++; //increase turn count by 1
+			
 				continue;
 			}
 
@@ -187,52 +136,13 @@ public class PlayGame
 
 			numTurns++; //increase turn count by 1
 
-			//end of turn procedure for all zombies on board
-			for (int i=0; i < zombieList.size(); i++)
-			{
-				if (zombieList.get(i).checkLose())
-				{
-					repeat = false;
-				}
-				else
-				{
-					zombieList.get(i).endTurn();
-				}
-			}
-
-			//end of turn procedure for all plants on board
-			for (int i=0; i < plantList.size(); i++)
-			{
-					plantList.get(i).endTurn();
-			}
 			
-			//check all plants to see if they are still alive
-			for (int i=0; i < plantList.size(); i++)
-			{
-				if (!plantList.get(i).isAlive())
-				{
-					GridCell = plantList.get(i).getGridCell();
-					plantList.remove(game.getCell(GridCell).getPlant());
-					game.getCell(GridCell).removePlant();
-
-				}
-			}
-
-			//check all zombies to see if they are still alive
-			for (int i=0; i < zombieList.size(); i++)
-			{
-				if (zombieList.get(i).getHealth() <= 0)
-				{
-					GridCell = zombieList.get(i).getGridCell();
-					zombieList.remove(game.getCell(GridCell).removeZombie());
-					zombieCount--;
-				}
-			}
+			game.endTurn();
 
 			//create a zombie at a random row only when a plant is placed
 			GridCell loc = new GridCell(randomRowNum(),7);
 			Zombie zombie = new Zombie(loc, game);
-			game.placeZombieAt(zombie, loc);
+			game.spawnZombieAt(zombie, loc);
 			zombieList.add(zombie);
 			zombieCount++;
 
