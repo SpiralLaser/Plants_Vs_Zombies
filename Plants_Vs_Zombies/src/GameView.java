@@ -1,25 +1,14 @@
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 
-public class GameView implements PvZListener {
+public class GameView implements PvZListener{
 
 	private JLabel pText; // Label for different plants
 	   
-    private ArrayList<JButton> bList; // List of game space buttons
+    private JButton[][] buttons; // List of game space buttons
     private ArrayList<JButton> pList; // List of plant buttons
     
     private JMenuItem quitItem; // Quit option
@@ -37,7 +26,7 @@ public class GameView implements PvZListener {
 	
 	
 	public GameView(){
-        bList = new ArrayList<JButton>();
+        buttons = new JButton[5][8];
 
         
         
@@ -91,7 +80,7 @@ public class GameView implements PvZListener {
        
        //
        //
-       // sunlight.setText(String.valueOf(game.getSunlight())); 
+       //sunlight.setText(String.valueOf(game.getSunlight())); 
        //
        // Need to decide on where exactly to put/do this, will be done later
        
@@ -106,6 +95,7 @@ public class GameView implements PvZListener {
        contentPane.add(topPanel); // Add the the upper level UI to the content pane
        
        
+       PvZModel model = new PvZModel();
        
        
        // Create the map layout for the actual game
@@ -113,10 +103,13 @@ public class GameView implements PvZListener {
        tPanel.setLayout(new GridLayout(5, 8));
        
        // For loop to continously add the buttons to the arraylist for GUI
-       for (int i = 0; i < 40; i++)
+       for (int r = 0; r < 5; r++)
        {
-           bList.add(new JButton(""));
-           tPanel.add(bList.get(i));
+    	   for (int c = 0; c < 8; c++) {
+    		   buttons[r][c] = new JButton("");
+    		   tPanel.add(buttons[r][c]);
+    		   buttons[r][c].addActionListener(new PvZController(model, r, c));
+    	   }
         }
        
        tPanel.setPreferredSize(new Dimension(800, 600)); // Set size of the actual game window and add it
@@ -163,12 +156,14 @@ public class GameView implements PvZListener {
        tFrame.pack();
 	}
 	
-	public void handleTicTacToeEvent(PvZEvent e) {
-		// TODO Auto-generated method stub
+	public void handlePvZEvent(PvZEvent e) {
 		
-	}
-	
-	public static void main(String[] args) {
-		new GameView();
+		Status s = e.getStatus();
+		switch(s) {
+			case PLANT_PLACED:	buttons[e.getRow()][e.getColumn()].setText(e.getType()); break;
+			case ZOMBIE_MOVING: buttons[e.getRow()][e.getColumn()].setText(e.getType()); break;
+			case WON: JOptionPane.showMessageDialog(null, "You Won!", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
+			case LOST: JOptionPane.showMessageDialog(null, "You Lost...", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
+		}
 	}
 }

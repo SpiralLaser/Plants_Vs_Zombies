@@ -1,4 +1,4 @@
 
 public interface PvZListener {
-    void handleTicTacToeEvent(PvZEvent e);
+    void handlePvZEvent(PvZEvent e);
 }
