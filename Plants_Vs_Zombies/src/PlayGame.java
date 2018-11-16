@@ -1,3 +1,4 @@
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -35,8 +36,8 @@ public class PlayGame
 		int numTurns = 1;
 		boolean repeat = true;
 		boolean playerWin = false;
-		Location location;
-		PvZGame game = new PvZGame();
+		GridCell GridCell;
+		PvZModel game = new PvZModel();
 		Plant unit = null;
 		String plantID = "";
 		int zombieCount = 0;
@@ -44,6 +45,7 @@ public class PlayGame
 		while (repeat)
 		{
 
+			
 			System.out.println("It is currently Turn " + numTurns + ". You have " + game.getSunlight() + " sunlight available");
 
 			game.printBoard();
@@ -67,7 +69,7 @@ public class PlayGame
 			if (s.equals("restart"))
 			{
 				System.out.println("Restarting the game!");
-				game = new PvZGame();
+				game = new PvZModel();
 				continue;
 			}
 
@@ -102,9 +104,9 @@ public class PlayGame
 				{
 					if (!plantList.get(i).isAlive())
 					{
-						location = plantList.get(i).getLocation();
-						plantList.remove(game.getBoard().getCell(location).getPlant());
-						game.getBoard().getCell(location).removePlant();
+						GridCell = plantList.get(i).getGridCell();
+						plantList.remove(game.getCell(GridCell).getPlant());
+						game.getCell(GridCell).removePlant();
 					}
 				}
 
@@ -113,8 +115,8 @@ public class PlayGame
 				{
 					if (zombieList.get(i).getHealth() <= 0)
 					{
-						location = zombieList.get(i).getLocation();
-						zombieList.remove(game.getBoard().getCell(location).removeZombie());
+						GridCell = zombieList.get(i).getGridCell();
+						zombieList.remove(game.getCell(GridCell).removeZombie());
 						zombieCount--;
 					}
 				}
@@ -148,17 +150,17 @@ public class PlayGame
 			System.out.println("Pick a position:");
 			s = scan.next();
 
-			String[] locationStrings;
+			String[] GridCellStrings;
 
 			//input must be within the board range. The board is a 5x8 board, so the first input must be between 0-4, and second 
 			//input must be between 0-7
 			if (s.matches("[0-4],[0-7]"))
 			{
-				locationStrings = s.split(",");
-				Location destination = new Location(Integer.parseInt(locationStrings[0]), Integer.parseInt(locationStrings[1]));
+				GridCellStrings = s.split(",");
+				GridCell destination = new GridCell(Integer.parseInt(GridCellStrings[0]), Integer.parseInt(GridCellStrings[1]));
 
 				//if there is already a plant on that tile
-				if (game.getBoard().getCell(destination).getPlant() !=null)
+				if (game.getCell(destination).getPlant() !=null)
 				{
 					System.out.println("You cannot plant more than 1 plant per tile");
 					continue;
@@ -173,9 +175,8 @@ public class PlayGame
 				{
 					unit = new Peashooter(destination, game);
 				}
-				game.getBoard().getCell(destination).addPlant(unit);;
+				game.getCell(destination).addPlant(unit);;
 				plantList.add(unit);
-				game.decreaseSunlight(4);
 
 			}
 			else 
@@ -210,9 +211,9 @@ public class PlayGame
 			{
 				if (!plantList.get(i).isAlive())
 				{
-					location = plantList.get(i).getLocation();
-					plantList.remove(game.getBoard().getCell(location).getPlant());
-					game.getBoard().getCell(location).removePlant();
+					GridCell = plantList.get(i).getGridCell();
+					plantList.remove(game.getCell(GridCell).getPlant());
+					game.getCell(GridCell).removePlant();
 
 				}
 			}
@@ -222,16 +223,16 @@ public class PlayGame
 			{
 				if (zombieList.get(i).getHealth() <= 0)
 				{
-					location = zombieList.get(i).getLocation();
-					zombieList.remove(game.getBoard().getCell(location).removeZombie());
+					GridCell = zombieList.get(i).getGridCell();
+					zombieList.remove(game.getCell(GridCell).removeZombie());
 					zombieCount--;
 				}
 			}
 
 			//create a zombie at a random row only when a plant is placed
-			Location loc = new Location(randomRowNum(),7);
+			GridCell loc = new GridCell(randomRowNum(),7);
 			Zombie zombie = new Zombie(loc, game);
-			game.getBoard().placeZombieAt(zombie, loc);
+			game.placeZombieAt(zombie, loc);
 			zombieList.add(zombie);
 			zombieCount++;
 
