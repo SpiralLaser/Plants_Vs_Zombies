@@ -10,6 +10,7 @@ public class Peashooter extends Plant {
 	public Peashooter(GridCell initialGridCell, PvZModel newGame) {
 
 		super(initialGridCell, newGame);
+        gridCell = initialGridCell;
 		game = newGame;
 	}
 	

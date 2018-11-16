@@ -144,7 +144,7 @@ public class GameView implements PvZListener{
        buttonPanel.setLayout(new GridLayout(1, 2));
        
        buttonPanel.add(plantPanel);
-       nextTurnButton = new JButton("Next Turn");
+       nextTurnButton = new JButton(" ");
        buttonPanel.add(nextTurnButton);
        
        contentPane.add(buttonPanel);

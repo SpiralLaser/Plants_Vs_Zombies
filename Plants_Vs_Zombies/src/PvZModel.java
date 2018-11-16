@@ -11,7 +11,7 @@ public class PvZModel {
 	GameView view;
 	ArrayList<Plant> plantList;
 	ArrayList<Zombie> zombieList;
-	GridCell GridCell;
+	GridCell gridCell;
 	boolean lose;
 	boolean playerWin;
 	int numTurns, sunlight;
@@ -47,18 +47,34 @@ public class PvZModel {
 	/**
 	 * Places plant at the passed GridCell if the GridCell is not null
 	 */
-	public void placePlantAt(Plant plant, GridCell GridCell)
+	public void placeSunflowerAt(int x, int y)
 	{
 		if (sunlight <4)
 			System.out.println("Not enough sunlight");
 		else {
-			board.get(GridCell.getRow()).get(GridCell.getCol()).addPlant(plant);
+			Sunflower plant = new Sunflower(new GridCell(x,y), this);
+			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
 			System.out.println("Plant added");
 			decreaseSunlight(4);
 		}
 		
 	}
+	
+	public void placePeashooterAt(int x, int y)
+	{
+		if (sunlight <4)
+			System.out.println("Not enough sunlight");
+		else {
+			Peashooter plant = new Peashooter(new GridCell(x,y), this);
+			board.get(x).get(y).addPlant(plant);
+			plantList.add(plant);
+			System.out.println("Plant added");
+			decreaseSunlight(4);
+		}
+		
+	}
+
 
 	public void spawnZombieAt(Zombie zombie, GridCell destination)
 	{
@@ -113,9 +129,9 @@ public class PvZModel {
 		{
 			if (!plantList.get(i).isAlive())
 			{
-				GridCell = plantList.get(i).getGridCell();
-				plantList.remove(this.getCell(GridCell).getPlant());
-				this.getCell(GridCell).removePlant();
+				gridCell = plantList.get(i).getGridCell();
+				plantList.remove(this.getCell(gridCell).getPlant());
+				this.getCell(gridCell).removePlant();
 			}
 		}
 
@@ -124,8 +140,8 @@ public class PvZModel {
 		{
 			if (zombieList.get(i).getHealth() <= 0)
 			{
-				GridCell = zombieList.get(i).getGridCell();
-				zombieList.remove(this.getCell(GridCell).removeZombie());
+				gridCell = zombieList.get(i).getGridCell();
+				zombieList.remove(this.getCell(gridCell).removeZombie());
 			}
 		}
 		

@@ -3,7 +3,7 @@ import java.util.Locale;
 public abstract class Plant {
 	
 	    private PvZModel game;
-	    private GridCell GridCell;
+	    protected GridCell gridCell;
 	    private int plantHealth;
 
 	    /**
@@ -15,9 +15,8 @@ public abstract class Plant {
 	    public Plant(GridCell initialGridCell, PvZModel newGame)
 	    {
 
-	        GridCell = initialGridCell;
+	        gridCell = initialGridCell;
 	        game = newGame;
-	        game.placePlantAt(this,GridCell);
 	        plantHealth = 1;
 	    }
 
@@ -34,7 +33,7 @@ public abstract class Plant {
 	     */    
 	    public void setGridCell(GridCell newGridCell)
 	    {
-	        GridCell = newGridCell;
+	        gridCell = newGridCell;
 	    }
 	    
 	    /**
@@ -42,7 +41,7 @@ public abstract class Plant {
 	     */
 	    public GridCell getGridCell()
 	    {
-	        return GridCell;
+	        return gridCell;
 	    }
 
 	    /**

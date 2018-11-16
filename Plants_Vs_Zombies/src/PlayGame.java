@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -29,8 +28,6 @@ public class PlayGame
 	{
 		System.out.println("Welcome to Plants vs Zombies! \nThe first position on the board is 0 and the last position is 7\n(e.g, 0,0 is in the top left corner of the board)");
 		scan = new Scanner(System.in);
-		ArrayList<Plant> plantList = new ArrayList<Plant>();
-		ArrayList<Zombie> zombieList = new ArrayList<Zombie>();
 
 		int numTurns = 1;
 		boolean repeat = true;
@@ -103,10 +100,10 @@ public class PlayGame
 
 			//input must be within the board range. The board is a 5x8 board, so the first input must be between 0-4, and second 
 			//input must be between 0-7
-			if (s.matches("[0-4],[0-7]"))
+			if (s.matches("[0-7],[0-4]"))
 			{
 				GridCellStrings = s.split(",");
-				GridCell destination = new GridCell(Integer.parseInt(GridCellStrings[0]), Integer.parseInt(GridCellStrings[1]));
+				GridCell destination = new GridCell(Integer.parseInt(GridCellStrings[1]), Integer.parseInt(GridCellStrings[0]));
 
 				//if there is already a plant on that tile
 				if (game.getCell(destination).getPlant() !=null)
@@ -117,15 +114,15 @@ public class PlayGame
 
 				if (plantID.equals("S"))
 				{
-					unit = new Sunflower(destination, game);
+					game.placeSunflowerAt(destination.getRow(), destination.getCol());
 				}
 
 				else if (plantID.equals("P"))
 				{
-					unit = new Peashooter(destination, game);
+					game.placePeashooterAt(destination.getRow(), destination.getCol());
 				}
-				game.getCell(destination).addPlant(unit);;
-				plantList.add(unit);
+				game.getCell(destination).addPlant(unit);
+
 
 			}
 			else 
@@ -143,7 +140,6 @@ public class PlayGame
 			GridCell loc = new GridCell(randomRowNum(),7);
 			Zombie zombie = new Zombie(loc, game);
 			game.spawnZombieAt(zombie, loc);
-			zombieList.add(zombie);
 			zombieCount++;
 
 
