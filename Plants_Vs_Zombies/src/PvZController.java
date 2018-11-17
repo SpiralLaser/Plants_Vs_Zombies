@@ -21,12 +21,12 @@ public class PvZController implements ActionListener {
 		Object o = e.getSource();
 
     	if(((JButton) o).getText().equals("S")) {
-    		model.placeSunflowerAt(x,y);
+    		model.placeSunflowerAt(x, y);
     	}
     	else if(((JButton) o).getText().equals("P")) {
-    		model.placePeashooterAt(x,y);
+    		model.placePeashooterAt(x, y);
     	}
-    	else {
+    	else if(((JButton) o).getText().equals("End Turn")) {
     		model.endTurn();
     	}
 	}
