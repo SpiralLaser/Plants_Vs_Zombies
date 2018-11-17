@@ -27,6 +27,7 @@ public class PvZEvent extends EventObject {
 	}
 	
 	public String getType() {
+		//System.out.println(type);
 		return type;
 	}
 }
