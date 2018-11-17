@@ -27,7 +27,7 @@ public class TestCasePvZModel {
 		 */
 		@Test
 		public void testGetSunlight() {
-			assertEquals(model.getSunlight(), 8);
+			assertEquals(model.getSunlight(), "8");
 		}
 		
 		/**
@@ -36,7 +36,7 @@ public class TestCasePvZModel {
 		@Test
 		public void testIncreaseSunlight() {
 			model.increaseSunlight();
-			assertEquals(model.getSunlight(), 9);
+			assertEquals(model.getSunlight(), "9");
 		}
 		
 		/**
@@ -45,7 +45,7 @@ public class TestCasePvZModel {
 		@Test
 		public void testdecreaseSunlight() {
 			model.decreaseSunlight(4);
-			assertEquals(model.getSunlight(), 4);
+			assertEquals(model.getSunlight(), "4");
 		}
 }
 
