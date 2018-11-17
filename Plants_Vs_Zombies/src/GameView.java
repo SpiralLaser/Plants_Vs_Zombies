@@ -132,8 +132,8 @@ public class GameView implements PvZListener{
 		plantPanel.setLayout(new GridLayout(1, 2));
 		sunPlant = new JButton("S");
 		peaPlant = new JButton("P");
-		sunPlant.addActionListener(new PvZController(model, 0, 0));
-		peaPlant.addActionListener(new PvZController(model, 0, 0));
+		sunPlant.addActionListener(new PvZController(model, -1, -1));
+		peaPlant.addActionListener(new PvZController(model, -1, -1));
 		plantPanel.add(sunPlant);
 		plantPanel.add(peaPlant);
 
@@ -143,7 +143,7 @@ public class GameView implements PvZListener{
 
 		buttonPanel.add(plantPanel);
 		nextTurnButton = new JButton("End Turn");
-		nextTurnButton.addActionListener(new PvZController(model, 0, 0));
+		nextTurnButton.addActionListener(new PvZController(model, -1, -1));
 		buttonPanel.add(nextTurnButton);
 
 		contentPane.add(buttonPanel);
