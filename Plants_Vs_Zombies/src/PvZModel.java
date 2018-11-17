@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class PvZModel {
 
@@ -6,8 +7,8 @@ public class PvZModel {
 	 * Constructor method for Model. Creates an 5x8 board and a new PvZGame.
 	 * @author Kevin Sun, Tri Nhan
 	 */
-
-	ArrayList<ArrayList<GridCell>> board = new ArrayList<ArrayList<GridCell>>(); 
+	private List<PvZListener> pvzListener;
+	ArrayList<ArrayList<GridCell>> board = new ArrayList<ArrayList<GridCell>>();
 	GameView view;
 	ArrayList<Plant> plantList;
 	ArrayList<Zombie> zombieList;
@@ -15,9 +16,12 @@ public class PvZModel {
 	boolean lose;
 	boolean playerWin;
 	int numTurns, sunlight;
+	Status status;
+	PvZEvent e;
 
 	public PvZModel()
 	{
+		pvzListener = new ArrayList<>();
 		plantList = new ArrayList<Plant>();
 		zombieList = new ArrayList<Zombie>();
 		numTurns = 1;
@@ -32,8 +36,12 @@ public class PvZModel {
 			}
 		}
 
-		view = new GameView();
+
 	}
+	
+	public void addPvZListener(PvZListener pvzl) {
+        pvzListener.add(pvzl);
+    }
 
 	public GridCell getCell(GridCell l) {
 		if (l.getRow() < board.size()){
@@ -103,7 +111,7 @@ public class PvZModel {
 
 	public void endTurn()
 	{
-		
+		status = Status.ZOMBIE_MOVING;
 		//iterate to perform end of turn procedure for all zombies on board
 		for (int i=0; i < zombieList.size(); i++)
 		{
@@ -114,9 +122,11 @@ public class PvZModel {
 			else
 			{
 				zombieList.get(i).endTurn();
+				e = new PvZEvent (this, status, zombieList.get(i).getGridCell(), "Z");
 			}
 
 		}
+		
 		
 		//iterate to perform end of turn procedure for all plants on board
 		for (int i=0; i < plantList.size(); i++)
@@ -131,6 +141,7 @@ public class PvZModel {
 			{
 				gridCell = plantList.get(i).getGridCell();
 				plantList.remove(this.getCell(gridCell).getPlant());
+				e = new PvZEvent (this, status, plantList.get(i).getGridCell(), plantList.get(i).getID());
 				this.getCell(gridCell).removePlant();
 			}
 		}
