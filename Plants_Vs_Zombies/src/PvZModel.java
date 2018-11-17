@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PvZModel {
 
@@ -69,6 +70,15 @@ public class PvZModel {
 			placePeashooterAt(x,y);
 		}
 
+		//create a zombie at a random row only when a plant is placed
+		gridCell = new GridCell(randomRowNum(),7);
+		Zombie zombie = new Zombie(gridCell, this);
+		this.spawnZombieAt(zombie, gridCell);
+
+		status = Status.ZOMBIE_MOVING;
+		e = new PvZEvent (this, status, gridCell, "Z");
+		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+
 	}
 
 	/**
@@ -117,6 +127,16 @@ public class PvZModel {
 
 	}
 
+	/**
+	 * Random number generator used to pick a random row to spawn a zombie at
+	 * @return
+	 */
+	public static int randomRowNum()
+	{
+		Random rn = new Random();
+		int row = rn.nextInt(4 - 0 + 1);		
+		return row;
+	}
 
 	public void spawnZombieAt(Zombie zombie, GridCell destination)
 	{
@@ -199,6 +219,7 @@ public class PvZModel {
 		{
 			playerWin = true;
 		}
+
 
 		//clears what button has been pressed previously
 		buttonClicked = "";
