@@ -85,6 +85,7 @@ public class PvZModel {
 			//update sunlight counter
 			status = Status.UPDATE_SUNLIGHT;
 			e = new PvZEvent (this, status, gridCell, getSunlight());
+			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 		}	
 
 	}
@@ -104,32 +105,37 @@ public class PvZModel {
 		if (sunlight <4)
 			System.out.println("Not enough sunlight");
 
+		else {
 			gridCell = new GridCell(x,y);
 			Sunflower plant = new Sunflower(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
-			System.out.println("Plant added");
 			decreaseSunlight(4);
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "S");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		}
+
 		
 
 	}
 
 	public void placePeashooterAt(int x, int y)
 	{
+		if (sunlight <4)
+			System.out.println("Not enough sunlight");
 
-
+		else {
 			gridCell = new GridCell(x,y);
 			Peashooter plant = new Peashooter(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
-			System.out.println("Plant added");
 			decreaseSunlight(4);
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "P");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		}
+			
 		
 
 	}
@@ -194,6 +200,7 @@ public class PvZModel {
 		for (int i=0; i < plantList.size(); i++)
 		{
 			plantList.get(i).endTurn();
+			System.out.println("Action performed");
 		}
 
 		//check all plants to see if they are still alive
@@ -205,9 +212,8 @@ public class PvZModel {
 				gridCell = plantList.get(i).getGridCell();
 				e = new PvZEvent (this, status, gridCell, plantList.get(i).getID());
 				for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-				this.getCell(gridCell).removePlant();
-				plantList.remove(this.getCell(gridCell).getPlant());
-				System.out.println("Plant removed");
+				board.get(plantList.get(i).getGridCell().getRow()).get(plantList.get(i).getGridCell().getCol()).removePlant();
+				plantList.remove(i);			
 			}
 		}
 
@@ -232,9 +238,13 @@ public class PvZModel {
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 		}
 
-
-		//clears what button has been pressed previously
-		buttonClicked = "";
+		//update sunlight counter
+		status = Status.UPDATE_SUNLIGHT;
+		e = new PvZEvent (this, status, gridCell, getSunlight());
+		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		
+		
+		numTurns++;
 
 	}
 

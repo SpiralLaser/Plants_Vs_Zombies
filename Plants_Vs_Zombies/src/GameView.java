@@ -178,7 +178,7 @@ public class GameView implements PvZListener{
             case WON: JOptionPane.showMessageDialog(null, "You Won!", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
             case LOST: JOptionPane.showMessageDialog(null, "You Lost...", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
             case ZOMBIE_DIED: buttons[e.getRow()][e.getColumn()].setText(""); break;
-            case UPDATE_SUNLIGHT: sPoints.setText(e.getType()); break;
+            case UPDATE_SUNLIGHT: sunlight.setText(e.getType()); break;
         }
     }
 
