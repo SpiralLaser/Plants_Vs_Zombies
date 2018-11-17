@@ -19,7 +19,7 @@ public class PvZController implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		
-		if (x == -1 && y == -1) {
+		if (x != 10 && y != 10) {
 			model.placePlantAt(x, y);
 			}
 		
