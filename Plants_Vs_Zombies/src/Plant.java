@@ -64,7 +64,6 @@ public abstract class Plant {
 	    public void takeDamage(int i)
 	    {
 	    	plantHealth -= i;
-	    	System.out.println(plantHealth);
 	    }
 	    
 	    /**

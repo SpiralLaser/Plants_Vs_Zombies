@@ -158,11 +158,27 @@ public class GameView implements PvZListener{
 
         Status s = e.getStatus();
         switch(s) {
-            case REMOVE_PLANT: buttons[e.getRow()][e.getColumn()].setText(e.getType()); break;
+            case REMOVE_PLANT: {
+            	buttons[e.getRow()][e.getColumn()].setText(e.getType()); 
+            	buttons[e.getRow()][e.getColumn()].setText("");
+            	break;
+
+            }
             case PLANT_PLACED:    buttons[e.getRow()][e.getColumn()].setText(e.getType()); break;
-            case ZOMBIE_MOVING: buttons[e.getRow()][e.getColumn()].setText(e.getType()); break;
+            case ZOMBIE_MOVING: 
+            	{
+            		buttons[e.getRow()][e.getColumn()].setText(e.getType()); 
+            		if (e.getColumn() != 7)
+            		{
+            			buttons[e.getRow()][e.getColumn()+1].setText("");
+            		}
+            		
+            		break;
+            	}
             case WON: JOptionPane.showMessageDialog(null, "You Won!", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
             case LOST: JOptionPane.showMessageDialog(null, "You Lost...", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
+            case ZOMBIE_DIED: buttons[e.getRow()][e.getColumn()].setText(""); break;
+            case UPDATE_SUNLIGHT: sPoints.setText(e.getType()); break;
         }
     }
 
