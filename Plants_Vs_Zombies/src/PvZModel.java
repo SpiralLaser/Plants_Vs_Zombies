@@ -17,7 +17,6 @@ public class PvZModel {
 	boolean playerWin;
 	int numTurns, sunlight;
 	Status status;
-	PvZEvent e;
 
 	public PvZModel()
 	{
@@ -111,6 +110,8 @@ public class PvZModel {
 
 	public void endTurn()
 	{
+		PvZEvent e;
+		
 		status = Status.ZOMBIE_MOVING;
 		//iterate to perform end of turn procedure for all zombies on board
 		for (int i=0; i < zombieList.size(); i++)
