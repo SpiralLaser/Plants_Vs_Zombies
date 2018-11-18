@@ -4,6 +4,11 @@ import java.awt.*;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 
+/**
+ * The controller component in the MVC model. Tells model what to do when a button is clicked.
+ * @author Leo Paz
+ *
+ */
 public class PvZController implements ActionListener {
 
 	private PvZModel model;

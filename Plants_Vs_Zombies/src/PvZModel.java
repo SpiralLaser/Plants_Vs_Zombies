@@ -5,7 +5,7 @@ import java.util.Random;
 public class PvZModel {
 
 	/**
-	 * Constructor method for Model. Creates an 5x8 board and a new PvZGame.
+	 * Constructor method for Model. Creates an 8x5 board and a new PvZGame.
 	 * @author Kevin Sun, Tri Nhan
 	 */
 	private List<PvZListener> pvzListener;
@@ -67,29 +67,36 @@ public class PvZModel {
 		else {
 			if (buttonClicked.equals("S")) {
 				placeSunflowerAt(x,y);
+				placePlantHelper();
 			}
 
 			else if (buttonClicked.equals("P")) {
 				placePeashooterAt(x,y);
+				placePlantHelper();
 			}
-			
-			//create a zombie at a random row only when a plant is placed
-			gridCell = new GridCell(randomRowNum(),7);
-			Zombie zombie = new Zombie(gridCell, this);
-			this.spawnZombieAt(zombie, gridCell);
-
-			status = Status.ZOMBIE_MOVING;
-			e = new PvZEvent (this, status, gridCell, "Z");
-			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-			
-			//update sunlight counter
-			status = Status.UPDATE_SUNLIGHT;
-			e = new PvZEvent (this, status, gridCell, getSunlight());
-			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 		}	
 
 	}
 
+	/**
+	 * Finishes the rest of the functionality when a plant is placed. Spawns a zombie and updates sunlight.
+	 */
+	public void placePlantHelper() {
+		//create a zombie at a random row only when a plant is placed
+		gridCell = new GridCell(randomRowNum(),7);
+		Zombie zombie = new Zombie(gridCell, this);
+		this.spawnZombieAt(zombie, gridCell);
+
+		status = Status.ZOMBIE_MOVING;
+		e = new PvZEvent (this, status, gridCell, "Z");
+		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		
+		//update sunlight counter
+		status = Status.UPDATE_SUNLIGHT;
+		e = new PvZEvent (this, status, gridCell, getSunlight());
+		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+	}
+	
 	/**
 	 * Sets the string to correspond to what button was pressed
 	 * @param s
@@ -97,8 +104,9 @@ public class PvZModel {
 	public void isClicked(String s) {
 		buttonClicked = s;
 	}
+	
 	/**
-	 * Places plant at the passed GridCell if the GridCell is not null
+	 * Places plant at the passed x and y coordinate if there is enough sunlight
 	 */
 	public void placeSunflowerAt(int x, int y)
 	{
@@ -114,9 +122,7 @@ public class PvZModel {
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "S");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-		}
-
-		
+		}	
 
 	}
 
@@ -135,8 +141,6 @@ public class PvZModel {
 			e = new PvZEvent (this, status, gridCell, "P");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 		}
-			
-		
 
 	}
 
@@ -162,11 +166,17 @@ public class PvZModel {
 		board.get(destination.getRow()).get(destination.getCol()).addZombie(zombie);
 	}
 
+	/**
+	 * Finds if there is a zombie in that row
+	 * @param r
+	 * @param c
+	 * @return
+	 */
 	public GridCell findZombie(int r, int c)
 	{
 		for (; c<7;c++)
 		{
-			if (!board.get(r).get(c).getZombies().isEmpty())	//!board[r][c].getZombies().isEmpty())
+			if (!board.get(r).get(c).getZombies().isEmpty())
 			{
 				return board.get(r).get(c);
 			}
@@ -174,9 +184,13 @@ public class PvZModel {
 		return null;
 	}
 
+	/**
+	 * Performs all end of turn actions on everything in the board
+	 */
 	public void endTurn()
 	{
 		status = Status.ZOMBIE_MOVING;
+		
 		//iterate to perform end of turn procedure for all zombies on board
 		for (int i=0; i < zombieList.size(); i++)
 		{
@@ -195,12 +209,10 @@ public class PvZModel {
 
 		}
 
-
 		//iterate to perform end of turn procedure for all plants on board
 		for (int i=0; i < plantList.size(); i++)
 		{
 			plantList.get(i).endTurn();
-			System.out.println("Action performed");
 		}
 
 		//check all plants to see if they are still alive

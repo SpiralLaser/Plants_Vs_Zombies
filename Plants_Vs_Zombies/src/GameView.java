@@ -3,7 +3,11 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-
+/**
+ * The View component in the MVC model. Creates the GUI fully and handles events when a button is clicked.
+ * @author Tri Nhan
+ *
+ */
 public class GameView implements PvZListener{
 
 	private JLabel pText; // Label for different plants
@@ -75,6 +79,7 @@ public class GameView implements PvZListener{
 		sunlight.setEditable(false); // This value cannot be edited
 		sunlight.setFont(new Font(null, Font.BOLD, 14));
 		sunlight.setHorizontalAlignment(JTextField.CENTER);
+		sunlight.setText("8");
 		topPanel.add(sunlight);
 
 		//
