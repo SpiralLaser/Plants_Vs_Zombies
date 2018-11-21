@@ -1,3 +1,4 @@
+# Plants_Vs_Zombies Milestone 2
 Authors: Kevin Sun, Tri Nhan, Leo Paz, Adam Labelle
 
 The .zip file is a direct clone from the master project in Github. Extract the contents to a new folder, then create a new Java project and set the source to that folder. Can also use other methods.
