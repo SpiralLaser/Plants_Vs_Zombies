@@ -35,7 +35,7 @@ public class TestCasePvZModel {
 		 */
 		@Test
 		public void testIncreaseSunlight() {
-			model.increaseSunlight();
+			model.increaseSunlight(25);
 			assertEquals(model.getSunlight(), "9");
 		}
 		

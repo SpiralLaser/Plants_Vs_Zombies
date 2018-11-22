@@ -5,12 +5,6 @@ public class Zombie {
 	/* The zombie's health */
 	private int zombieHealth;
 	
-	/* gameOver will let the game know when a zombie crosses the board*/
-	private static boolean gameOver = false;
-	
-	/* How many zombies there are across the game */
-	private static int zombieCount = 0;
-	
 	private GridCell GridCell;
 	private PvZModel game;
 	
@@ -20,8 +14,8 @@ public class Zombie {
 	 * */
 	public Zombie (GridCell initialGridCell, PvZModel newGame) {		
 		zombieSpeed = 1;
-		zombieHealth = 3;
-		zombieCount++;
+		zombieHealth = 4;
+
 		GridCell = initialGridCell;
 		game = newGame;
 	}
@@ -59,14 +53,6 @@ public class Zombie {
 	 */
 	public int getHealth() {
 		return zombieHealth;
-	}
-	
-	/*
-	 * Gets the amount of zombies alive
-	 * @return the amount of zombies in the game
-	 */
-	public int getZombieCount() {
-		return zombieCount;
 	}
 	
 	/**

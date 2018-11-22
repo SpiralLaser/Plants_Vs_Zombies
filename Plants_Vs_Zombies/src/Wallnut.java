@@ -1,17 +1,18 @@
-public class Sunflower extends Plant {
+public class Wallnut extends Plant {
 	PvZModel game;
 
 	/**
-	 * Constructor for Sunflower plant class
+	 * Constructor for TwinSunflower plant class
 	 * @author Kevin Sun
 	 * @param initialGridCell
 	 * @param newGame
 	 */
-	public Sunflower(GridCell initialGridCell, PvZModel newGame) {
+	public Wallnut(GridCell initialGridCell, PvZModel newGame) {
 
 		super(initialGridCell, newGame);
         gridCell = initialGridCell;
 		game = newGame;
+		this.setHealth(3);
 	}
 	
     /**
@@ -19,12 +20,12 @@ public class Sunflower extends Plant {
      */
     public String getID()
     {
-        return "S";
+        return "W";
     }
 
 
     public void endTurn()
     {
-    	game.increaseSunlight(25);
+    	//wallnut does nothing at end of turns
     }
 }

@@ -15,11 +15,14 @@ public class PvZModel {
 	ArrayList<Plant> plantList;
 	ArrayList<Zombie> zombieList;
 	GridCell gridCell;
+
+	Status status;
+	PvZEvent e;
+	Plant plant;
+	
 	boolean lose;
 	boolean playerWin;
 	int numTurns, sunlight;
-	Status status;
-	PvZEvent e;
 
 	public PvZModel()
 	{
@@ -27,7 +30,7 @@ public class PvZModel {
 		plantList = new ArrayList<Plant>();
 		zombieList = new ArrayList<Zombie>();
 		numTurns = 1;
-		sunlight = 8;
+		sunlight = 100;
 
 		for (int r = 0; r < 5; r++)
 		{
@@ -110,15 +113,15 @@ public class PvZModel {
 	 */
 	public void placeSunflowerAt(int x, int y)
 	{
-		if (sunlight <4)
+		if (sunlight <50)
 			System.out.println("Not enough sunlight");
 
 		else {
 			gridCell = new GridCell(x,y);
-			Sunflower plant = new Sunflower(gridCell, this);
+			plant = new Sunflower(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
-			decreaseSunlight(4);
+			decreaseSunlight(50);
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "S");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
@@ -128,20 +131,68 @@ public class PvZModel {
 
 	public void placePeashooterAt(int x, int y)
 	{
-		if (sunlight <4)
+		if (sunlight <50)
 			System.out.println("Not enough sunlight");
 
 		else {
 			gridCell = new GridCell(x,y);
-			Peashooter plant = new Peashooter(gridCell, this);
+			plant = new Peashooter(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
-			decreaseSunlight(4);
+			decreaseSunlight(50);
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "P");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 		}
 
+	}
+	
+	public void placeRepeaterAt(int x, int y) {
+		if (sunlight <100)
+			System.out.println("Not enough sunlight");
+
+		else {
+			gridCell = new GridCell(x,y);
+			plant = new Repeater(gridCell, this);
+			board.get(x).get(y).addPlant(plant);
+			plantList.add(plant);
+			decreaseSunlight(100);
+			status = Status.PLANT_PLACED;
+			e = new PvZEvent (this, status, gridCell, "R");
+			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		}
+	}
+	
+	public void placeTwinSunflowerAt(int x, int y) {
+		if (sunlight <100)
+			System.out.println("Not enough sunlight");
+
+		else {
+			gridCell = new GridCell(x,y);
+			plant = new TwinSunflower(gridCell, this);
+			board.get(x).get(y).addPlant(plant);
+			plantList.add(plant);
+			decreaseSunlight(100);
+			status = Status.PLANT_PLACED;
+			e = new PvZEvent (this, status, gridCell, "T");
+			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		}
+	}
+	
+	public void placeWallnut(int x, int y) {
+		if (sunlight <50)
+			System.out.println("Not enough sunlight");
+
+		else {
+			gridCell = new GridCell(x,y);
+			plant = new Wallnut(gridCell, this);
+			board.get(x).get(y).addPlant(plant);
+			plantList.add(plant);
+			decreaseSunlight(50);
+			status = Status.PLANT_PLACED;
+			e = new PvZEvent (this, status, gridCell, "W");
+			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		}
 	}
 
 	/**
@@ -260,9 +311,9 @@ public class PvZModel {
 
 	}
 
-	public void increaseSunlight()
+	public void increaseSunlight(int i)
 	{
-		sunlight++;
+		sunlight += i;
 	}
 
 	/**

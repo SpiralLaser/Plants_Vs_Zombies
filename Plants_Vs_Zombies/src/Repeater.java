@@ -28,11 +28,7 @@ public class Repeater extends Plant {
     public void endTurn()
     {
     	GridCell cell = game.findZombie(this.getGridCell().getRow(), this.getGridCell().getCol());
-    	if (cell == null)
-    	{
-    		//do nothing if there is no zombie on this row
-    	}
-    	else
+    	if (cell != null)
     	{
     		Zombie firstZomb = cell.getZombie();
     		firstZomb.zombieHit(2);
