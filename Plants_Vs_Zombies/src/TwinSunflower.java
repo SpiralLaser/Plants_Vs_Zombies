@@ -19,7 +19,7 @@ public class TwinSunflower extends Plant {
      */
     public String getID()
     {
-        return "S";
+        return "T";
     }
 
 
