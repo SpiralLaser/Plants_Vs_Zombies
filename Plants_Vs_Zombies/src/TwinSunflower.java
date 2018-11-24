@@ -1,13 +1,13 @@
-public class Sunflower extends Plant {
+public class TwinSunflower extends Plant {
 	PvZModel game;
 
 	/**
-	 * Constructor for Sunflower plant class
+	 * Constructor for TwinSunflower plant class
 	 * @author Kevin Sun
 	 * @param initialGridCell
 	 * @param newGame
 	 */
-	public Sunflower(GridCell initialGridCell, PvZModel newGame) {
+	public TwinSunflower(GridCell initialGridCell, PvZModel newGame) {
 
 		super(initialGridCell, newGame);
         gridCell = initialGridCell;
@@ -19,12 +19,12 @@ public class Sunflower extends Plant {
      */
     public String getID()
     {
-        return "S";
+        return "T";
     }
 
 
     public void endTurn()
     {
-    	game.increaseSunlight(25);
+    	game.increaseSunlight(50);
     }
 }

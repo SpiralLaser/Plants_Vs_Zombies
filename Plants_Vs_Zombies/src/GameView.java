@@ -79,7 +79,7 @@ public class GameView implements PvZListener{
 		sunlight.setEditable(false); // This value cannot be edited
 		sunlight.setFont(new Font(null, Font.BOLD, 14));
 		sunlight.setHorizontalAlignment(JTextField.CENTER);
-		sunlight.setText("8");
+		sunlight.setText("100");
 		topPanel.add(sunlight);
 
 		//

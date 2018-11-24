@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
+
+import javax.swing.JOptionPane;
 
 public class PvZModel {
 
@@ -14,12 +17,18 @@ public class PvZModel {
 	String buttonClicked = new String();
 	ArrayList<Plant> plantList;
 	ArrayList<Zombie> zombieList;
+	Zombie zombie;
 	GridCell gridCell;
+	Stack<ArrayList> undo, redo;
+	boolean spawnBoss;
+
+	Status status;
+	PvZEvent e;
+	Plant plant;
+
 	boolean lose;
 	boolean playerWin;
 	int numTurns, sunlight;
-	Status status;
-	PvZEvent e;
 
 	public PvZModel()
 	{
@@ -27,7 +36,10 @@ public class PvZModel {
 		plantList = new ArrayList<Plant>();
 		zombieList = new ArrayList<Zombie>();
 		numTurns = 1;
-		sunlight = 8;
+		sunlight = 100;
+		undo = new Stack();
+		redo = new Stack();
+		spawnBoss = true;
 
 		for (int r = 0; r < 5; r++)
 		{
@@ -62,20 +74,30 @@ public class PvZModel {
 	 */
 	public void placePlantAt(int x, int y)
 	{
-		if (sunlight <4)
-			System.out.println("Not enough sunlight");
-		else {
-			if (buttonClicked.equals("S")) {
-				placeSunflowerAt(x,y);
-				placePlantHelper();
-			}
 
-			else if (buttonClicked.equals("P")) {
-				placePeashooterAt(x,y);
-				placePlantHelper();
-			}
-		}	
+		if (buttonClicked.equals("S")) {
+			placeSunflowerAt(x,y);
 
+		}
+
+		else if (buttonClicked.equals("P")) {
+			placePeashooterAt(x,y);
+
+		}
+		
+		else if (buttonClicked.equals("R")) {
+			placeRepeaterAt(x,y);
+
+		}
+		
+		else if (buttonClicked.equals("T")) {
+			placeTwinSunflowerAt(x,y);
+
+		}
+		else if (buttonClicked.equals("W")) {
+			placeWallnutAt(x,y);
+
+		}
 	}
 
 	/**
@@ -84,19 +106,27 @@ public class PvZModel {
 	public void placePlantHelper() {
 		//create a zombie at a random row only when a plant is placed
 		gridCell = new GridCell(randomRowNum(),7);
-		Zombie zombie = new Zombie(gridCell, this);
+		
+		if (spawnBoss == true && numTurns >= 15) {
+			zombie = new BossZombie(gridCell, this);
+			spawnBoss = false;
+		}
+		else {
+			zombie = new Zombie(gridCell, this);
+		}
+		
 		this.spawnZombieAt(zombie, gridCell);
 
 		status = Status.ZOMBIE_MOVING;
-		e = new PvZEvent (this, status, gridCell, "Z");
+		e = new PvZEvent (this, status, gridCell, zombie.getID());
 		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-		
+
 		//update sunlight counter
 		status = Status.UPDATE_SUNLIGHT;
 		e = new PvZEvent (this, status, gridCell, getSunlight());
 		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 	}
-	
+
 	/**
 	 * Sets the string to correspond to what button was pressed
 	 * @param s
@@ -104,44 +134,94 @@ public class PvZModel {
 	public void isClicked(String s) {
 		buttonClicked = s;
 	}
-	
+
 	/**
 	 * Places plant at the passed x and y coordinate if there is enough sunlight
 	 */
 	public void placeSunflowerAt(int x, int y)
 	{
-		if (sunlight <4)
-			System.out.println("Not enough sunlight");
+		if (sunlight <50)
+			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a sunflower", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
 			gridCell = new GridCell(x,y);
-			Sunflower plant = new Sunflower(gridCell, this);
+			plant = new Sunflower(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
-			decreaseSunlight(4);
+			decreaseSunlight(50);
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "S");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+			placePlantHelper();
 		}	
 
 	}
 
 	public void placePeashooterAt(int x, int y)
 	{
-		if (sunlight <4)
-			System.out.println("Not enough sunlight");
+		if (sunlight <50)
+			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a peashooter", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
 			gridCell = new GridCell(x,y);
-			Peashooter plant = new Peashooter(gridCell, this);
+			plant = new Peashooter(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
-			decreaseSunlight(4);
+			decreaseSunlight(50);
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "P");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+			placePlantHelper();
 		}
 
+	}
+
+	public void placeRepeaterAt(int x, int y) {
+		if (sunlight <100)
+			JOptionPane.showMessageDialog(null, "You need 100 sunlight to plant a repeater", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
+
+		else {
+			gridCell = new GridCell(x,y);
+			plant = new Repeater(gridCell, this);
+			board.get(x).get(y).addPlant(plant);
+			plantList.add(plant);
+			decreaseSunlight(100);
+			status = Status.PLANT_PLACED;
+			e = new PvZEvent (this, status, gridCell, "R");
+			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		}
+	}
+
+	public void placeTwinSunflowerAt(int x, int y) {
+		if (sunlight <100)
+			JOptionPane.showMessageDialog(null, "You need 100 sunlight to plant a twin sunflower", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
+
+		else {
+			gridCell = new GridCell(x,y);
+			plant = new TwinSunflower(gridCell, this);
+			board.get(x).get(y).addPlant(plant);
+			plantList.add(plant);
+			decreaseSunlight(100);
+			status = Status.PLANT_PLACED;
+			e = new PvZEvent (this, status, gridCell, "T");
+			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		}
+	}
+
+	public void placeWallnutAt(int x, int y) {
+		if (sunlight <50)
+			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a wallnut", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
+
+		else {
+			gridCell = new GridCell(x,y);
+			plant = new Wallnut(gridCell, this);
+			board.get(x).get(y).addPlant(plant);
+			plantList.add(plant);
+			decreaseSunlight(50);
+			status = Status.PLANT_PLACED;
+			e = new PvZEvent (this, status, gridCell, "W");
+			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		}
 	}
 
 	/**
@@ -164,6 +244,62 @@ public class PvZModel {
 	public void moveZombie(Zombie zombie, GridCell destination)
 	{
 		board.get(destination.getRow()).get(destination.getCol()).addZombie(zombie);
+	}
+
+	/**
+	 * Before a new move is made, push the current board state to undo so that the user can undo the move. 
+	 * 1. If move is made, push current board state to undo stack, then update model and view
+	 * 2. If undo is clicked, push current board state to redo stack, then set board state to popped undo
+	 * 3. If redo is clicked, push current board state to undo stack, then set board state to popped redo
+	 */
+	public void pushUndo() {
+		undo.push(board);
+	}
+
+	public void popUndo() {
+		if (undo.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "You have no moves to undo", "No undo moves", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else {
+			pushRedo();
+			board = undo.pop();
+		}
+	}
+
+	public void pushRedo() {
+		redo.push(board);
+	}
+
+	public void popRedo() {
+		if (redo.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "You have no moves to redo", "No redo moves", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else {
+			pushUndo();
+			board = redo.pop();
+		}
+	}
+	
+	//possibly need to switch i and j numbers, i.e. i = 5 and j = 8
+	/**
+	 * Called when  undo or redo is clicked. Iterates and updates the whole board
+	 */
+	public void updateWholeBoard() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 5; j++) {
+				if (!board.get(i).get(j).zombieEmpty()) {
+					status = Status.ZOMBIE_MOVING;
+					e = new PvZEvent (this, status, gridCell, board.get(i).get(j).getZombie().getID() );
+					for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+				}
+							
+				if (!board.get(i).get(j).plantEmpty()) {
+					status = Status.PLANT_PLACED;
+					e = new PvZEvent (this, status, gridCell, board.get(i).get(j).getPlant().getID() );
+					for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+				}
+			}
+		}
 	}
 
 	/**
@@ -190,20 +326,20 @@ public class PvZModel {
 	public void endTurn()
 	{
 		status = Status.ZOMBIE_MOVING;
-		
+
 		//iterate to perform end of turn procedure for all zombies on board
 		for (int i=0; i < zombieList.size(); i++)
 		{
 			if (zombieList.get(i).checkLose())
 			{
 				status = Status.LOST;
-				e = new PvZEvent (this, status, zombieList.get(i).getGridCell(), "Z");
+				e = new PvZEvent (this, status, zombieList.get(i).getGridCell(), zombieList.get(i).getID());
 				for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 			}
 			else
 			{
 				zombieList.get(i).endTurn();
-				e = new PvZEvent (this, status, zombieList.get(i).getGridCell(), "Z");
+				e = new PvZEvent (this, status, zombieList.get(i).getGridCell(), zombieList.get(i).getID());
 				for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 			}
 
@@ -243,7 +379,7 @@ public class PvZModel {
 		}
 
 		//end of wave condition. Only if number of turns has reached a certain point and there are no more zombies on the board
-		if (numTurns >= 5 && zombieList.isEmpty())
+		if (numTurns >= 20 && zombieList.isEmpty())
 		{
 			status = Status.WON;
 			e = new PvZEvent (this, status, gridCell, "Z");
@@ -254,15 +390,18 @@ public class PvZModel {
 		status = Status.UPDATE_SUNLIGHT;
 		e = new PvZEvent (this, status, gridCell, getSunlight());
 		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-		
-		
+
+
 		numTurns++;
 
 	}
 
-	public void increaseSunlight()
+	public void increaseSunlight(int i)
 	{
-		sunlight++;
+		if (i <1) {
+			throw new IllegalArgumentException("Cannot increase sunlight by less than 1");
+		}
+		sunlight += i;
 	}
 
 	/**
@@ -270,6 +409,9 @@ public class PvZModel {
 	 */		
 	public void decreaseSunlight(int i)
 	{
+		if (i <1) {
+			throw new IllegalArgumentException("Cannot decrease sunlight by less than 1");
+		}
 		sunlight = sunlight - i;
 	}
 
