@@ -20,6 +20,7 @@ public class PvZModel {
 	Zombie zombie;
 	GridCell gridCell;
 	Stack<ArrayList> undo, redo;
+	Stack<Integer> undoSunlight, redoSunlight;
 	boolean spawnBoss;
 
 	Status status;
@@ -107,6 +108,7 @@ public class PvZModel {
 		//create a zombie at a random row only when a plant is placed
 		gridCell = new GridCell(randomRowNum(),7);
 		
+		//spawns boss once if past turn 15, otherwise spawn a normal zombie
 		if (spawnBoss == true && numTurns >= 15) {
 			zombie = new BossZombie(gridCell, this);
 			spawnBoss = false;
@@ -144,6 +146,7 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a sunflower", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
+			pushUndo();
 			gridCell = new GridCell(x,y);
 			plant = new Sunflower(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -163,6 +166,7 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a peashooter", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
+			pushUndo();
 			gridCell = new GridCell(x,y);
 			plant = new Peashooter(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -181,6 +185,7 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 100 sunlight to plant a repeater", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
+			pushUndo();
 			gridCell = new GridCell(x,y);
 			plant = new Repeater(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -197,6 +202,7 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 100 sunlight to plant a twin sunflower", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
+			pushUndo();
 			gridCell = new GridCell(x,y);
 			plant = new TwinSunflower(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -213,6 +219,7 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a wallnut", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
+			pushUndo();
 			gridCell = new GridCell(x,y);
 			plant = new Wallnut(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -254,6 +261,7 @@ public class PvZModel {
 	 */
 	public void pushUndo() {
 		undo.push(board);
+		undoSunlight.push(sunlight);
 	}
 
 	public void popUndo() {
@@ -263,11 +271,14 @@ public class PvZModel {
 		else {
 			pushRedo();
 			board = undo.pop();
+			sunlight = undoSunlight.pop();
+			updateWholeBoard();
 		}
 	}
 
 	public void pushRedo() {
 		redo.push(board);
+		redoSunlight.push(sunlight);
 	}
 
 	public void popRedo() {
@@ -277,6 +288,8 @@ public class PvZModel {
 		else {
 			pushUndo();
 			board = redo.pop();
+			sunlight = redoSunlight.pop();
+			updateWholeBoard();
 		}
 	}
 	
@@ -386,6 +399,7 @@ public class PvZModel {
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 		}
 
+		increaseSunlight(25);
 		//update sunlight counter
 		status = Status.UPDATE_SUNLIGHT;
 		e = new PvZEvent (this, status, gridCell, getSunlight());

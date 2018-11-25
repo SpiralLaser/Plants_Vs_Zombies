@@ -23,7 +23,10 @@ public class Zombie {
 	 * Sets the health of the zombie
 	 */
 	public void setHealth(int health) {
-		if (health > 0 && health < 20) zombieHealth = health;
+		if (health < 1) {
+			throw new IllegalArgumentException("Cannot set a zombies health to less than 1");
+		}
+		zombieHealth = health;
 	}
 	
 	/*
@@ -32,6 +35,9 @@ public class Zombie {
 	 * @return The health of the zombie
 	 */
 	public int zombieHit(int dmg) {
+		if (dmg < 1) {
+			throw new IllegalArgumentException("Cannot do less than 1 damage");
+		}
 		zombieHealth -= dmg;
 		
 		if (zombieHealth <= 0) {
