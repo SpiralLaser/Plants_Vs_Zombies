@@ -1,35 +1,22 @@
-public class Zombie {
-	/* The zombie's movement speed */
-	private int zombieSpeed;
 	
+/** Zombie superclass for all zombies
+	 * @author Leo Paz
+	 * */
+public class Zombie {	
 	/* The zombie's health */
 	private int zombieHealth;
 	
-	/* gameOver will let the game know when a zombie crosses the board*/
-	private static boolean gameOver = false;
-	
-	/* How many zombies there are across the game */
-	private static int zombieCount = 0;
-	
-	private GridCell GridCell;
+	protected GridCell GridCell;
 	private PvZModel game;
 	
 	
-	/** Constructor for the Zombie Class 
-	 * @author Leo Paz
-	 * */
+
 	public Zombie (GridCell initialGridCell, PvZModel newGame) {		
-		zombieSpeed = 1;
-		zombieHealth = 3;
-		zombieCount++;
+
+		zombieHealth = 4;
+
 		GridCell = initialGridCell;
 		game = newGame;
-	}
-	/*
-	 * Sets the movement speed of the zombie
-	 */
-	public void setSpeed(int speed) {
-		if (speed > 0 && speed < 10) zombieSpeed = speed;
 	}
 	
 	/*
@@ -60,20 +47,7 @@ public class Zombie {
 	public int getHealth() {
 		return zombieHealth;
 	}
-	
-	/*
-	 * Gets the amount of zombies alive
-	 * @return the amount of zombies in the game
-	 */
-	public int getZombieCount() {
-		return zombieCount;
-	}
-	
-	/**
-	 * Maybe add a gameover function if the zombie gets to the end
-	 * using the gameOver variable
-	 */
-	
+
 	/**
 	 * Returns a string so the board knows what to print
 	 * @return
@@ -90,6 +64,10 @@ public class Zombie {
 	public GridCell getGridCell()
 	{
 		return GridCell;
+	}
+	
+	public PvZModel getGame() {
+		return game;
 	}
 	
 	/**

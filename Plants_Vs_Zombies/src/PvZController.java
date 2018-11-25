@@ -36,6 +36,15 @@ public class PvZController implements ActionListener {
 		else if(((JButton) o).getText().equals("P")) {
 			model.isClicked("P");
 		}
+		else if(((JButton) o).getText().equals("R")) {
+			model.isClicked("R");
+		}
+		else if(((JButton) o).getText().equals("T")) {
+			model.isClicked("T");
+		}
+		else if(((JButton) o).getText().equals("W")) {
+			model.isClicked("W");
+		}
 		else if(((JButton) o).getText().equals("End Turn")) {
 			model.endTurn();
 		}

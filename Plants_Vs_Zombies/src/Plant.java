@@ -17,7 +17,7 @@ public abstract class Plant {
 
 	        gridCell = initialGridCell;
 	        game = newGame;
-	        plantHealth = 1;
+	        plantHealth = 2;
 	    }
 
 	    /**
@@ -52,10 +52,7 @@ public abstract class Plant {
 	        return game;
 	    }
 
-	    public void endTurn()
-	    {
-	    	
-	    }
+	    public abstract void endTurn();
 	    
 	    /**
 	     * Plant takes i damage
@@ -64,6 +61,10 @@ public abstract class Plant {
 	    public void takeDamage(int i)
 	    {
 	    	plantHealth -= i;
+	    }
+	    
+	    public void setHealth(int i) {
+	    	plantHealth = i;
 	    }
 	    
 	    /**

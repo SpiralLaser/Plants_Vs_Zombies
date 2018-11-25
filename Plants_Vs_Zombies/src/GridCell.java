@@ -82,16 +82,26 @@ public class GridCell {
 	public void removeAndKillZombie() {
 		zombies.removeFirst();
 	}
-
+	
+	/**
+	 * Checks if there is a plant in this gridcell
+	 * @return boolean 
+	 */
+	public boolean plantEmpty() {
+		return plant == null;
+	}
+	
+	/**
+	 * Checks if there are any zombies in this gridcell
+	 * @return
+	 */
+	public boolean zombieEmpty() {
+		return zombies.isEmpty();
+	}
+	
 	//returns true if neither plant or zombie is on the tile
-	public boolean isEmpty()
-	{
-
-		if (plant == null && zombies.isEmpty())
-		{
-			return true;
-		}
-		return false;
+	public boolean isEmpty() {
+		return (plantEmpty() && zombieEmpty());
 	}
 	/**
 	 * Returns the piece's row position
@@ -113,6 +123,9 @@ public class GridCell {
 	 */
 	public void setRow(int r)
 	{
+		if (r > 7) {
+			throw new IllegalArgumentException("Cannot set the row to be more than 7");
+		}
 		row = r;
 	}
 
@@ -121,6 +134,9 @@ public class GridCell {
 	 */
 	public void setCol (int c)
 	{
+		if (c > 4) {
+			throw new IllegalArgumentException("Cannot set the column to be more than 4");
+		}
 		col = c;
 	}
 
@@ -129,8 +145,11 @@ public class GridCell {
 	 */
 	public void setLocation(int r, int c)
 	{
-		this.row = r;
-		this.col = c;
+		if (r < 0 || c < 0) {
+			throw new IllegalArgumentException("Cannot set row or column to less than 1");
+		}
+		this.setRow(r);
+		this.setCol(c);
 	}
 
 	/**
