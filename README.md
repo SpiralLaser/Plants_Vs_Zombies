@@ -20,6 +20,8 @@ Graphic improvements on GUI with images of plants and zombies. More plants have 
 
 Our stack was not working properly. However we intended for when the user performs an action, the board is pushed onto the undo stack and the redo stack is cleared. When the user does an undo, the undo stack is popped and the board is set to the popped board, and the board is pushed onto the redo stack. When the user does a redo, the redo stack is popped, redo is called, and the board is pushed onto the undo stack.
 
+We also couldn't get the zombie animation working on time so we left it as a Z text.
+
 
 # Contributions
 
