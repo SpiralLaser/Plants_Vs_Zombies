@@ -20,10 +20,12 @@ public class GameView implements PvZListener{
 	private JMenuItem newItem; // Reset/create a new game
 
 	private JLabel sPoints; // sunlight point label
-	private JLabel wNumber;
+	private JLabel urLabel;
 
 	private JTextField sunlight;  //The actual value display
-	private JTextField wave;
+
+	private JButton undoB;
+	private JButton redoB;
 
 	private JButton nextTurnButton; //Button to enter next game turn
 	private JButton peaPlant;
@@ -32,7 +34,10 @@ public class GameView implements PvZListener{
 	private JButton twinPlant;
 	private JButton repPlant;
 
-
+	/**
+	 * Constructor for the Game view. displays the 5x8 board with animated plants and 
+	 * zombies
+	 */
 	public GameView(){
 
 		PvZModel model = new PvZModel();
@@ -72,10 +77,10 @@ public class GameView implements PvZListener{
 		sPoints.setHorizontalAlignment(JLabel.CENTER);
 		topPanel.add(sPoints);
 
-		wNumber = new JLabel("Wave");
-		wNumber.setVerticalAlignment(JLabel.BOTTOM);
-		wNumber.setHorizontalAlignment(JLabel.CENTER);
-		topPanel.add(wNumber);
+		urLabel = new JLabel("Time Manipulation");
+		urLabel.setVerticalAlignment(JLabel.BOTTOM);
+		urLabel.setHorizontalAlignment(JLabel.CENTER);
+		topPanel.add(urLabel);
 
 
 		// Displays current sunlight
@@ -86,19 +91,21 @@ public class GameView implements PvZListener{
 		sunlight.setText("100");
 		topPanel.add(sunlight);
 
-		//
-		//sunlight.setText(String.valueOf(game.getSunlight())); 
-		//
-		// Need to decide on where exactly to put/do this, will be done later
-
-		wave = new JTextField(3);
-		wave.setEditable(false);
-		wave.setFont(new Font(null, Font.BOLD, 14));
-		wave.setHorizontalAlignment(JTextField.CENTER);
-		topPanel.add(wave);
-
-		wave.setText(""); // Set to display wave number maybe future option
-
+		//create undo/redo button leyout
+		JPanel urPanel = new JPanel();
+		urPanel.setLayout(new GridLayout(1, 2));
+		
+		// add undo and redo buttons
+		undoB = new JButton("Undo Turn");
+		urPanel.add(undoB);
+		
+		redoB = new JButton("Redo Turn");
+		urPanel.add(redoB);
+		
+		//add undo and redo buttons
+		topPanel.add(urPanel);
+		
+		
 		contentPane.add(topPanel); // Add the the upper level UI to the content pane
 
 
@@ -118,7 +125,7 @@ public class GameView implements PvZListener{
 			}
 		}
 
-		tPanel.setPreferredSize(new Dimension(800, 600)); // Set size of the actual game window and add it
+		tPanel.setPreferredSize(new Dimension(800, 800)); // Set size of the actual game window and add it
 		contentPane.add(tPanel);
 
 
@@ -137,29 +144,19 @@ public class GameView implements PvZListener{
 		lPanel.add(pText);
 		contentPane.add(lPanel);
 
-		//Create all image icons for different plants and their respective cards
-		ImageIcon sunP = new ImageIcon("Images/Sunflower_Idle.gif");
-		Image img = sunP.getImage();
-		Image tImg = img.getScaledInstance(107, 66, java.awt.Image.SCALE_SMOOTH );
-		sunP = new ImageIcon(tImg);
-		
+		//Create all images for each plants' respective cards
 		ImageIcon sunC = new ImageIcon("Images/Sunflower_Card.png");
-		ImageIcon peaP = new ImageIcon("Images/Peashooter_Idle.gif");
 		ImageIcon peaC = new ImageIcon("Images/Peashooter_Card.png");
-		ImageIcon wallP = new ImageIcon("Images/Wallnut_Idle.png");
 		ImageIcon wallC = new ImageIcon("Images/Wallnut_Card.png");
-		ImageIcon twinP = new ImageIcon("Images/TwinSunflower_idle.gif");
 		ImageIcon twinC = new ImageIcon("Images/TwinSunflower_Card.png");
-		ImageIcon repP = new ImageIcon("Images/Repeater_Still.png");
 		ImageIcon repC = new ImageIcon("Images/Repeater_Card.png");
 		
-		//Create layout for the plants buttons and the next turn button, eventually will move the end turn button to a lower line so it looks nicer.
+		//Create layout for the plants buttons and the next turn button, 
+		//Also creates the icons for the plant buttons
 		JPanel plantPanel = new JPanel();
 		plantPanel.setLayout(new GridLayout(1, 5));
 		sunPlant = new JButton();
 		sunPlant.setName("S");
-		
-		
 		sunPlant.setIcon(sunC);
 		sunPlant.addActionListener(new PvZController(model, 10, 10));
 		
@@ -183,6 +180,7 @@ public class GameView implements PvZListener{
 		repPlant.setIcon(repC);
 		repPlant.addActionListener(new PvZController(model, 10, 10));
 		
+		//Add all plant buttons to the GUI
 		plantPanel.add(sunPlant);
 		plantPanel.add(peaPlant);
 		plantPanel.add(wallPlant);
@@ -206,31 +204,90 @@ public class GameView implements PvZListener{
 		tFrame.pack();
 	}
 
+	/**
+	 * Event handler for different status' of the game to update the GUI
+	 * @param e
+	 */
 	public void handlePvZEvent(PvZEvent e) {
 
         Status s = e.getStatus();
+        int tRow = e.getRow();
+        int tCol = e.getColumn();
         switch(s) {
-            case REMOVE_PLANT: {
-            	buttons[e.getRow()][e.getColumn()].setText(e.getType()); 
-            	buttons[e.getRow()][e.getColumn()].setText("");
+            case REMOVE_PLANT: { 
+            	buttons[tRow][tCol].setName("");
+            	buttons[tRow][tCol].setIcon(null);
             	break;
 
             }
-            case PLANT_PLACED:  buttons[e.getRow()][e.getColumn()].setName(e.getType()); 
-            					break;
+            case PLANT_PLACED:  {
+            		buttons[tRow][tCol].setName(e.getType()); 
+            		//Load up animation image,scale it, and set scaled image to the button
+            		if(buttons[tRow][tCol].getName().equals("S")) { // Plant type check
+            			ImageIcon temp = new ImageIcon("Images/Sunflower_Idle.gif");
+            			Image sunI = temp.getImage().getScaledInstance(
+            					buttons[tRow][tCol].getWidth(),
+            					buttons[tRow][tCol].getHeight(),
+            					Image.SCALE_DEFAULT);
+            			ImageIcon sunP = new ImageIcon(sunI);
+            			
+            			buttons[tRow][tCol].setIcon(sunP);
+            		}
+            		else if(buttons[tRow][tCol].getName().equals("P")) {
+            			ImageIcon temp = new ImageIcon("Images/Peashooter_Idle.gif");
+            			Image peaI = temp.getImage().getScaledInstance(
+            					buttons[tRow][tCol].getWidth(),
+            					buttons[tRow][tCol].getHeight(),
+            					Image.SCALE_DEFAULT);
+            			ImageIcon peaP = new ImageIcon(peaI);
+            			
+            			buttons[tRow][tCol].setIcon(peaP);
+            		}
+            		else if(buttons[tRow][tCol].getName().equals("W")) {
+            			ImageIcon temp = new ImageIcon("Images/Wallnut_Idle.png");
+            			Image wallI = temp.getImage().getScaledInstance(
+            					buttons[tRow][tCol].getWidth(),
+            					buttons[tRow][tCol].getHeight(),
+            					Image.SCALE_DEFAULT);
+            			ImageIcon wallP = new ImageIcon(wallI);
+            			
+            			buttons[tRow][tCol].setIcon(wallP);
+            		}
+            		else if(buttons[tRow][tCol].getName().equals("T")) {
+            			ImageIcon temp = new ImageIcon("Images/TwinSunflower_Idle.gif");
+            			Image twinI = temp.getImage().getScaledInstance(
+            					buttons[tRow][tCol].getWidth(),
+            					buttons[tRow][tCol].getHeight(),
+            					Image.SCALE_DEFAULT);
+            			ImageIcon twinP = new ImageIcon(twinI);
+            			
+            			buttons[tRow][tCol].setIcon(twinP);
+            		}
+            		else if(buttons[tRow][tCol].getName().equals("R")) {
+            			ImageIcon temp = new ImageIcon("Images/Repeater_Still.png");
+            			Image repI = temp.getImage().getScaledInstance(
+            					buttons[tRow][tCol].getWidth(),
+            					buttons[tRow][tCol].getHeight(),
+            					Image.SCALE_DEFAULT);
+            			ImageIcon repP = new ImageIcon(repI);
+            			
+            			buttons[tRow][tCol].setIcon(repP);
+            		break;
+            		}
+            }
             case ZOMBIE_MOVING: 
             	{
-            		buttons[e.getRow()][e.getColumn()].setText(e.getType()); 
+            		buttons[tRow][tCol].setText(e.getType()); 
             		if (e.getColumn() != 7)
             		{
-            			buttons[e.getRow()][e.getColumn()+1].setText("");
+            			buttons[tRow][tCol + 1].setText("");
             		}
             		
             		break;
             	}
             case WON: JOptionPane.showMessageDialog(null, "You Won!", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
             case LOST: JOptionPane.showMessageDialog(null, "You Lost...", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
-            case ZOMBIE_DIED: buttons[e.getRow()][e.getColumn()].setText(""); break;
+            case ZOMBIE_DIED: buttons[tRow][tCol].setName(""); break;
             case UPDATE_SUNLIGHT: sunlight.setText(e.getType()); break;
         }
     }
