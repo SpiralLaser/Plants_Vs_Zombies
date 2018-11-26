@@ -98,10 +98,13 @@ public class GameView implements PvZListener{
 		// add undo and redo buttons
 		undoB = new JButton("Undo Turn");
 		undoB.setName("Undo");
+		undoB.addActionListener(new PvZController(model, 10, 10));
 		urPanel.add(undoB);
+		
 		
 		redoB = new JButton("Redo Turn");
 		redoB.setName("Redo");
+		redoB.addActionListener(new PvZController(model, 10, 10));
 		urPanel.add(redoB);
 		
 		//add undo and redo buttons

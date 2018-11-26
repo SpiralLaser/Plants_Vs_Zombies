@@ -24,7 +24,7 @@ public class PvZModel {
 	
 	//A stack was used for the undo and redo buttons because it best simulates what is needed. Push to stack whenever a move is made, pop from the stack 
 	//if undo or redo is clicked
-	Stack<ArrayList> undo, redo;
+	Stack<ArrayList<ArrayList<GridCell>>> undo, redo;
 	Stack<Integer> undoSunlight, redoSunlight;
 	boolean spawnBoss;
 
@@ -282,6 +282,7 @@ public class PvZModel {
 			board = undo.pop();
 			sunlight = undoSunlight.pop();
 			updateWholeBoard();
+			updateSunlight();
 		}
 	}
 
@@ -299,6 +300,7 @@ public class PvZModel {
 			board = redo.pop();
 			sunlight = redoSunlight.pop();
 			updateWholeBoard();
+			updateSunlight();
 		}
 	}
 	
@@ -307,8 +309,8 @@ public class PvZModel {
 	 * Called when  undo or redo is clicked. Iterates and updates the whole board
 	 */
 	public void updateWholeBoard() {
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 8; j++) {
 				if (!board.get(i).get(j).zombieEmpty()) {
 					status = Status.ZOMBIE_MOVING;
 					e = new PvZEvent (this, status, gridCell, board.get(i).get(j).getZombie().getID() );
@@ -409,16 +411,16 @@ public class PvZModel {
 		}
 
 		increaseSunlight(25);
-		//update sunlight counter
-		status = Status.UPDATE_SUNLIGHT;
-		e = new PvZEvent (this, status, gridCell, getSunlight());
-		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-
-
+		updateSunlight();
 		numTurns++;
 
 	}
 
+	public void updateSunlight() {
+		status = Status.UPDATE_SUNLIGHT;
+		e = new PvZEvent (this, status, gridCell, getSunlight());
+		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+	}
 	public void increaseSunlight(int i)
 	{
 		if (i <1) {
