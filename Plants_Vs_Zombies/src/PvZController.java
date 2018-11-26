@@ -22,20 +22,29 @@ public class PvZController implements ActionListener {
 
 	}
 
-public void actionPerformed(ActionEvent e) {
-		
+	public void actionPerformed(ActionEvent e) {
+
 		if (x != 10 && y != 10) {
 			model.placePlantAt(x, y);
-			}
-		
+		}
+
 		else {
 			Object o = e.getSource();
-			
+
 			if(((JButton) o).getText().equals("End Turn")) {
 				model.endTurn();
 			}
+
+			else if(((JButton) o).getName().equals("Undo")) {
+
+				model.popUndo();
+			}
+			else if(((JButton) o).getName().equals("Redo")) {
+
+				model.popRedo();
+			}
 			else if(((JButton) o).getName().equals("S")) {
-				
+
 				model.isClicked("S");
 			}
 			else if(((JButton) o).getName().equals("P")) {
@@ -51,7 +60,7 @@ public void actionPerformed(ActionEvent e) {
 				model.isClicked("W");
 			}
 		}
-		
-		
+
+
 	}
 }
