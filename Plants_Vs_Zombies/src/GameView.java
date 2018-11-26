@@ -211,7 +211,6 @@ public class GameView implements PvZListener{
         Status s = e.getStatus();
         switch(s) {
             case REMOVE_PLANT: {
-            	buttons[e.getRow()][e.getColumn()].setText(e.getType()); 
             	buttons[e.getRow()][e.getColumn()].setText("");
             	break;
 

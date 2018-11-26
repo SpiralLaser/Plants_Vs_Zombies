@@ -2,7 +2,7 @@ public class Wallnut extends Plant {
 	PvZModel game;
 
 	/**
-	 * Constructor for TwinSunflower plant class
+	 * Constructor for Wallnut plant class
 	 * @author Kevin Sun
 	 * @param initialGridCell
 	 * @param newGame
@@ -16,7 +16,7 @@ public class Wallnut extends Plant {
 	}
 	
     /**
-     * Returns the identification of being a sunflower
+     * Returns the identification of being a wallnut
      */
     public String getID()
     {

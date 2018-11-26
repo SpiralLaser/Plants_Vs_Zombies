@@ -1,4 +1,9 @@
 
+/**
+ * Boss of the game. Has 10 hp and moves every 2 turns. Is a child of the parent class Zombie.
+ * @author Kevin Sun
+ *
+ */
 public class BossZombie extends Zombie {
 
 	private int moveTurn;

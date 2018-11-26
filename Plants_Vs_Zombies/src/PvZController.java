@@ -21,7 +21,10 @@ public class PvZController implements ActionListener {
 		this.y = y;
 
 	}
-
+	
+/**
+ * What the button should do when it is clicked
+ */
 public void actionPerformed(ActionEvent e) {
 		
 		if (x != 10 && y != 10) {

@@ -9,9 +9,11 @@ public class PvZModel {
 
 	/**
 	 * Constructor method for Model. Creates an 8x5 board and a new PvZGame.
-	 * @author Kevin Sun, Tri Nhan
+	 * @author Kevin Sun
 	 */
 	private List<PvZListener> pvzListener;
+	
+	//A nested arraylist was used to simulate a 2D board.
 	ArrayList<ArrayList<GridCell>> board = new ArrayList<ArrayList<GridCell>>();
 	GameView view;
 	String buttonClicked = new String();
@@ -19,6 +21,9 @@ public class PvZModel {
 	ArrayList<Zombie> zombieList;
 	Zombie zombie;
 	GridCell gridCell;
+	
+	//A stack was used for the undo and redo buttons because it best simulates what is needed. Push to stack whenever a move is made, pop from the stack 
+	//if undo or redo is clicked
 	Stack<ArrayList> undo, redo;
 	Stack<Integer> undoSunlight, redoSunlight;
 	boolean spawnBoss;
@@ -396,7 +401,7 @@ public class PvZModel {
 		}
 
 		//end of wave condition. Only if number of turns has reached a certain point and there are no more zombies on the board
-		if (numTurns >= 20 && zombieList.isEmpty())
+		if (numTurns >= 15 && zombieList.isEmpty())
 		{
 			status = Status.WON;
 			e = new PvZEvent (this, status, gridCell, "Z");
