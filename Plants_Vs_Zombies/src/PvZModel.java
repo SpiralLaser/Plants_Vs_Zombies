@@ -43,8 +43,8 @@ public class PvZModel {
 		zombieList = new ArrayList<Zombie>();
 		numTurns = 1;
 		sunlight = 100;
-		undo = new Stack();
-		redo = new Stack();
+		undo = new Stack<ArrayList<ArrayList<GridCell>>>();
+		redo = new Stack<ArrayList<ArrayList<GridCell>>>();
 		spawnBoss = true;
 		undoSunlight = new Stack<Integer>();
 		redoSunlight = new Stack<Integer>();
@@ -81,7 +81,8 @@ public class PvZModel {
 	 */
 	public void placePlantAt(int x, int y)
 	{
-
+		pushUndo();
+		
 		if (buttonClicked.equals("S")) {
 			placeSunflowerAt(x,y);
 
@@ -152,7 +153,6 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a sunflower", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
-			pushUndo();
 			gridCell = new GridCell(x,y);
 			plant = new Sunflower(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -172,7 +172,7 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a peashooter", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
-			pushUndo();
+
 			gridCell = new GridCell(x,y);
 			plant = new Peashooter(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -191,7 +191,7 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 200 sunlight to plant a repeater", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
-			pushUndo();
+
 			gridCell = new GridCell(x,y);
 			plant = new Repeater(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -209,7 +209,7 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 150 sunlight to plant a twin sunflower", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
-			pushUndo();
+
 			gridCell = new GridCell(x,y);
 			plant = new TwinSunflower(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -227,7 +227,6 @@ public class PvZModel {
 			JOptionPane.showMessageDialog(null, "You need 50 sunlight to plant a wallnut", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
-			pushUndo();
 			gridCell = new GridCell(x,y);
 			plant = new Wallnut(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
@@ -320,6 +319,12 @@ public class PvZModel {
 				if (!board.get(i).get(j).plantEmpty()) {
 					status = Status.PLANT_PLACED;
 					e = new PvZEvent (this, status, gridCell, board.get(i).get(j).getPlant().getID() );
+					for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+				}
+				
+				if (board.get(i).get(j).plantEmpty()) {
+					status = Status.REMOVE_PLANT;
+					e = new PvZEvent (this, status, gridCell, "");
 					for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 				}
 			}
