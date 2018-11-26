@@ -18,6 +18,8 @@ Current win condition is if 15 or more turns have passed and there are no more z
 Changes from last milestone:
 Graphic improvements on GUI with images of plants and zombies. More plants have been added, current roster consists of Sunflower, Peashooter, Twin Sunflower, Repeater, and Wallnut. An unlimited undo and redo button has been added.
 
+Our stack was not working properly. However we intended for when the user performs an action, the board is pushed onto the undo stack and the redo stack is cleared. When the user does an undo, the undo stack is popped and the board is set to the popped board, and the board is pushed onto the redo stack. When the user does a redo, the redo stack is popped, redo is called, and the board is pushed onto the undo stack.
+
 
 # Contributions
 
