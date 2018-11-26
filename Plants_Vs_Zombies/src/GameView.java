@@ -217,6 +217,7 @@ public class GameView implements PvZListener{
             case REMOVE_PLANT: { 
             	buttons[tRow][tCol].setName("");
             	buttons[tRow][tCol].setIcon(null);
+            	buttons[tRow][tCol].setText("");
             	break;
 
             }
@@ -287,7 +288,10 @@ public class GameView implements PvZListener{
             	}
             case WON: JOptionPane.showMessageDialog(null, "You Won!", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
             case LOST: JOptionPane.showMessageDialog(null, "You Lost...", "Game Finished!", JOptionPane.INFORMATION_MESSAGE); System.exit(-1); break;
-            case ZOMBIE_DIED: buttons[tRow][tCol].setName(""); break;
+            case ZOMBIE_DIED: 
+            	buttons[tRow][tCol].setName(""); 
+            	buttons[tRow][tCol].setText(""); 
+            	break;
             case UPDATE_SUNLIGHT: sunlight.setText(e.getType()); break;
         }
     }
