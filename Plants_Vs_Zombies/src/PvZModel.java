@@ -41,7 +41,8 @@ public class PvZModel {
 		undo = new Stack();
 		redo = new Stack();
 		spawnBoss = true;
-
+		undoSunlight = new Stack<Integer>();
+		redoSunlight = new Stack<Integer>();
 		for (int r = 0; r < 5; r++)
 		{
 			board.add(new ArrayList<GridCell>());
@@ -181,8 +182,8 @@ public class PvZModel {
 	}
 
 	public void placeRepeaterAt(int x, int y) {
-		if (sunlight <100)
-			JOptionPane.showMessageDialog(null, "You need 100 sunlight to plant a repeater", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
+		if (sunlight <200)
+			JOptionPane.showMessageDialog(null, "You need 200 sunlight to plant a repeater", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
 			pushUndo();
@@ -190,16 +191,17 @@ public class PvZModel {
 			plant = new Repeater(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
-			decreaseSunlight(100);
+			decreaseSunlight(200);
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "R");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+			placePlantHelper();
 		}
 	}
 
 	public void placeTwinSunflowerAt(int x, int y) {
-		if (sunlight <100)
-			JOptionPane.showMessageDialog(null, "You need 100 sunlight to plant a twin sunflower", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
+		if (sunlight <150)
+			JOptionPane.showMessageDialog(null, "You need 150 sunlight to plant a twin sunflower", "Not enough sunlight", JOptionPane.INFORMATION_MESSAGE);
 
 		else {
 			pushUndo();
@@ -207,10 +209,11 @@ public class PvZModel {
 			plant = new TwinSunflower(gridCell, this);
 			board.get(x).get(y).addPlant(plant);
 			plantList.add(plant);
-			decreaseSunlight(100);
+			decreaseSunlight(150);
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "T");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+			placePlantHelper();
 		}
 	}
 
@@ -228,6 +231,7 @@ public class PvZModel {
 			status = Status.PLANT_PLACED;
 			e = new PvZEvent (this, status, gridCell, "W");
 			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+			placePlantHelper();
 		}
 	}
 
