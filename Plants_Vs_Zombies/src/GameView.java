@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -27,6 +28,9 @@ public class GameView implements PvZListener{
 	private JButton nextTurnButton; //Button to enter next game turn
 	private JButton peaPlant;
 	private JButton sunPlant;
+	private JButton wallPlant;
+	private JButton twinPlant;
+	private JButton repPlant;
 
 
 	public GameView(){
@@ -108,6 +112,7 @@ public class GameView implements PvZListener{
 		{
 			for (int c = 0; c < 8; c++) {
 				buttons[r][c] = new JButton("");
+				buttons[r][c].setBackground(new Color(150, 200, 0));
 				tPanel.add(buttons[r][c]);
 				buttons[r][c].addActionListener(new PvZController(model, r, c));
 			}
@@ -132,15 +137,57 @@ public class GameView implements PvZListener{
 		lPanel.add(pText);
 		contentPane.add(lPanel);
 
+		//Create all image icons for different plants and their respective cards
+		ImageIcon sunP = new ImageIcon("Images/Sunflower_Idle.gif");
+		Image img = sunP.getImage();
+		Image tImg = img.getScaledInstance(107, 66, java.awt.Image.SCALE_SMOOTH );
+		sunP = new ImageIcon(tImg);
+		
+		ImageIcon sunC = new ImageIcon("Images/Sunflower_Card.png");
+		ImageIcon peaP = new ImageIcon("Images/Peashooter_Idle.gif");
+		ImageIcon peaC = new ImageIcon("Images/Peashooter_Card.png");
+		ImageIcon wallP = new ImageIcon("Images/Wallnut_Idle.png");
+		ImageIcon wallC = new ImageIcon("Images/Wallnut_Card.png");
+		ImageIcon twinP = new ImageIcon("Images/TwinSunflower_idle.gif");
+		ImageIcon twinC = new ImageIcon("Images/TwinSunflower_Card.png");
+		ImageIcon repP = new ImageIcon("Images/Repeater_Still.png");
+		ImageIcon repC = new ImageIcon("Images/Repeater_Card.png");
+		
 		//Create layout for the plants buttons and the next turn button, eventually will move the end turn button to a lower line so it looks nicer.
 		JPanel plantPanel = new JPanel();
-		plantPanel.setLayout(new GridLayout(1, 2));
-		sunPlant = new JButton("S");
-		peaPlant = new JButton("P");
+		plantPanel.setLayout(new GridLayout(1, 5));
+		sunPlant = new JButton();
+		sunPlant.setName("S");
+		
+		
+		sunPlant.setIcon(sunC);
 		sunPlant.addActionListener(new PvZController(model, 10, 10));
+		
+		peaPlant = new JButton();
+		peaPlant.setName("P");
+		peaPlant.setIcon(peaC);
 		peaPlant.addActionListener(new PvZController(model, 10, 10));
+		
+		wallPlant = new JButton();
+		wallPlant.setName("W");
+		wallPlant.setIcon(wallC);
+		wallPlant.addActionListener(new PvZController(model, 10, 10));
+		
+		twinPlant = new JButton();
+		twinPlant.setName("T");
+		twinPlant.setIcon(twinC);
+		twinPlant.addActionListener(new PvZController(model, 10, 10));
+		
+		repPlant = new JButton();
+		repPlant.setName("R");
+		repPlant.setIcon(repC);
+		repPlant.addActionListener(new PvZController(model, 10, 10));
+		
 		plantPanel.add(sunPlant);
 		plantPanel.add(peaPlant);
+		plantPanel.add(wallPlant);
+		plantPanel.add(twinPlant);
+		plantPanel.add(repPlant);
 
 		// Create button layout 
 		JPanel buttonPanel = new JPanel();
@@ -169,7 +216,8 @@ public class GameView implements PvZListener{
             	break;
 
             }
-            case PLANT_PLACED:    buttons[e.getRow()][e.getColumn()].setText(e.getType()); break;
+            case PLANT_PLACED:  buttons[e.getRow()][e.getColumn()].setName(e.getType()); 
+            					break;
             case ZOMBIE_MOVING: 
             	{
             		buttons[e.getRow()][e.getColumn()].setText(e.getType()); 
