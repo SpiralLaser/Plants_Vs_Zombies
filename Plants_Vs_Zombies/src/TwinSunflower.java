@@ -15,7 +15,7 @@ public class TwinSunflower extends Plant {
 	}
 	
     /**
-     * Returns the identification of being a sunflower
+     * Returns the identification of being a twin sunflower
      */
     public String getID()
     {
