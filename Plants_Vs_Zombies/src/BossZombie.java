@@ -16,6 +16,10 @@ public class BossZombie extends Zombie {
 		moveTurn = 0;
 	}
 	
+	public BossZombie(Zombie z) {
+		this(z.getGridCell(), z.getGame());
+	}
+	
 	/**
 	 * Returns a string so the board knows what to print
 	 * @return

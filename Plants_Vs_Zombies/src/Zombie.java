@@ -13,10 +13,14 @@ public class Zombie {
 
 	public Zombie (GridCell initialGridCell, PvZModel newGame) {		
 
-		zombieHealth = 4;
+		zombieHealth = 1;
 
 		GridCell = initialGridCell;
 		game = newGame;
+	}
+	
+	public Zombie (Zombie z) {
+		this(z.getGridCell(), z.getGame());
 	}
 	
 	/*
