@@ -1,4 +1,4 @@
-# Plants_Vs_Zombies Milestone 2
+# Plants_Vs_Zombies Milestone 3
 Authors: Kevin Sun, Tri Nhan, Leo Paz, Adam Labelle
 
 The .zip file is a direct clone from the master project in Github. Extract the contents to a new folder, then create a new Java project and set the source to that folder. Can also use other methods to import the project.
@@ -18,7 +18,8 @@ Current win condition is if 15 or more turns have passed and there are no more z
 Changes from last milestone:
 Graphic improvements on GUI with images of plants and zombies. More plants have been added, current roster consists of Sunflower, Peashooter, Twin Sunflower, Repeater, and Wallnut. An unlimited undo and redo button has been added.
 
-Our stack was not working properly. However we intended for when the user performs an action, the board is pushed onto the undo stack and the redo stack is cleared. When the user does an undo, the undo stack is popped and the board is set to the popped board, and the board is pushed onto the redo stack. When the user does a redo, the redo stack is popped, redo is called, and the board is pushed onto the undo stack.
+Current bugs:
+After a successful redo, plants are readded back to the view but zombies are not. However, zombies will still be in the game and you will be able to see them again after ending your turn.
 
 We also couldn't get the zombie animation working on time so we left it as a Z text.
 
