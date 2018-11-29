@@ -68,8 +68,10 @@ public class PvZModel {
 
 	}
 
-
-
+	/**
+	 * Deep copies the current board state into a temporary variable that will be pushed to the stack
+	 * @param a
+	 */
 	public void createCopy(ArrayList<ArrayList<GridCell>> a) {
 		temp = new ArrayList<ArrayList<GridCell>>();
 		for (int r = 0; r < 5; r++) {
@@ -156,6 +158,10 @@ public class PvZModel {
 		else if (buttonClicked.equals("W")) {
 			placeWallnutAt(x,y);
 
+		}
+		
+		else {
+			throw new IllegalArgumentException("Not a valid plant");
 		}
 	}
 
@@ -405,6 +411,10 @@ public class PvZModel {
 	 */
 	public GridCell findZombie(int r, int c)
 	{
+		if (r <0 || c <0 || r > 7 || c > 4) {
+			throw new IllegalArgumentException("Row or column cannot be less than 1, row cannot be greater than 7, and column cannot be greater than 4");
+		}
+		
 		for (; c<8;c++)
 		{
 			if (!board.get(r).get(c).zombieEmpty())

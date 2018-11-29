@@ -63,6 +63,9 @@ public class GridCell {
 	 * @return the plant that was removed
 	 */
 	public Plant removePlant() {
+		if (plantEmpty()) {
+			throw new IllegalArgumentException("No plants in this gridcell");
+		}
 		Plant temp = plant;
 		plant = null;
 		return temp;
@@ -73,6 +76,9 @@ public class GridCell {
 	 * @return the zombie that needs to be returned
 	 */
 	public Zombie removeZombie() {
+		if (zombieEmpty()) {
+			throw new IllegalArgumentException("No zombies in this gridcell");
+		}
 		return zombies.removeFirst();
 	}
 
@@ -80,6 +86,9 @@ public class GridCell {
 	 * Removes the zombie at the start of the list as if it died
 	 */
 	public void removeAndKillZombie() {
+		if (zombieEmpty()) {
+			throw new IllegalArgumentException("No zombies in this gridcell");
+		}
 		zombies.removeFirst();
 	}
 	

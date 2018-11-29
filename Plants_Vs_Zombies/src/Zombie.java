@@ -13,7 +13,7 @@ public class Zombie {
 
 	public Zombie (GridCell initialGridCell, PvZModel newGame) {		
 
-		zombieHealth = 1;
+		zombieHealth = 4;
 
 		GridCell = initialGridCell;
 		game = newGame;

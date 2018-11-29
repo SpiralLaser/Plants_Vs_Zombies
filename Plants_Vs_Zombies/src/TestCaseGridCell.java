@@ -44,8 +44,16 @@ public class TestCaseGridCell {
 	 */
 	@Test
 	public void testRemoveZombie() {
+		try {
+			gridCell.removeZombie();
+		}
+		catch (IllegalArgumentException e) {
+			
+		}
 		gridCell.addZombie(zombie);
 		assertEquals(gridCell.removeZombie(), zombie);
+		
+
 	}
 
 	/**
@@ -53,6 +61,12 @@ public class TestCaseGridCell {
 	 */
 	@Test
 	public void testPlant() {
+		try {
+			gridCell.removePlant();
+		}
+		catch (IllegalArgumentException e) {
+			
+		}
 		gridCell.addPlant(plant);
 		assertEquals(gridCell.getPlant(), plant);
 	}
@@ -77,8 +91,13 @@ public class TestCaseGridCell {
 
 		gridCell.setLocation(4, 4);
 		assertEquals(gridCell.equals(gridCell), true);
-
-		temp.setLocation(5, 5);
-		assertEquals(gridCell.equals(temp), false);
+		IllegalArgumentException a = new IllegalArgumentException();
+		try {
+			temp.setLocation(5, 5);
+		}
+		catch (IllegalArgumentException e) { 
+			//succcessful error has been thrown
+		}
+		
 	}
 }

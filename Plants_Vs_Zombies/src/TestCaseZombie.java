@@ -33,6 +33,12 @@ public class TestCaseZombie {
 	public void testsetHealth() {
 		zombies.setHealth(10); // Set Health
 		assertEquals(zombies.getHealth(), 10);
+		
+		try {
+			zombies.setHealth(-10);
+		} catch (IllegalArgumentException e) {
+			
+		}
 	}
 
 	/**
@@ -40,7 +46,7 @@ public class TestCaseZombie {
 	 */
 	@Test
 	public void TestgetHealth() {
-		assertEquals(zombies.getHealth(), 3);
+		assertEquals(zombies.getHealth(), 4);
 	}
 
 	/**
@@ -49,7 +55,13 @@ public class TestCaseZombie {
 	@Test
 	public void TestTakeDamage() {
 		zombies.zombieHit(2); //Take two away
-		assertEquals(zombies.getHealth(), 1);
+		assertEquals(zombies.getHealth(), 2);
+		
+		try {
+			zombies.zombieHit(-1);
+		} catch (IllegalArgumentException e) {
+			
+		}
 	}
 
 	/**
