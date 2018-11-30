@@ -27,16 +27,10 @@ public class PvZController implements ActionListener {
 	 * What the button should do when it is clicked
 	 */
 	public void actionPerformed(ActionEvent e) {
-
-
-
-
 		if (x != 10 && y != 10) {
 			model.placePlantAt(x, y);
 
-		}
-
-		else {
+		}	else {
 			Object o = e.getSource();
 
 			if(((JButton) o).getText().equals("End Turn")) {
@@ -50,6 +44,16 @@ public class PvZController implements ActionListener {
 			else if(((JButton) o).getName().equals("Redo")) {
 
 				model.popRedo();
+			}
+			
+			else if(((JButton) o).getName().equals("Save")) {
+				model.saveFeature();
+				
+			}
+			
+			else if(((JButton) o).getName().equals("Load")) {
+
+				model.loadFeature();
 			}
 			else if(((JButton) o).getName().equals("S")) {
 

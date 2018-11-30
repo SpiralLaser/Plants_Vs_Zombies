@@ -24,15 +24,11 @@ public class GameView implements PvZListener{
 
 	private JTextField sunlight;  //The actual value display
 
-	private JButton undoB;
-	private JButton redoB;
-
+	private JButton undoB, redoB;
+	private JButton save, load;
 	private JButton nextTurnButton; //Button to enter next game turn
-	private JButton peaPlant;
-	private JButton sunPlant;
-	private JButton wallPlant;
-	private JButton twinPlant;
-	private JButton repPlant;
+	private JButton peaPlant, sunPlant, wallPlant, twinPlant, repPlant;
+
 
 	/**
 	 * Constructor for the Game view. displays the 5x8 board with animated plants and 
@@ -93,7 +89,17 @@ public class GameView implements PvZListener{
 
 		//create undo/redo button leyout
 		JPanel urPanel = new JPanel();
-		urPanel.setLayout(new GridLayout(1, 2));
+		urPanel.setLayout(new GridLayout(1, 4));
+		
+		save = new JButton("Save");
+		save.setName("Save");
+		save.addActionListener(new PvZController(model, 10, 10));
+		urPanel.add(save);
+		
+		load = new JButton("Load");
+		load.setName("Load");
+		load.addActionListener(new PvZController(model, 10, 10));
+		urPanel.add(load);
 		
 		// add undo and redo buttons
 		undoB = new JButton("Undo Turn");
@@ -109,11 +115,7 @@ public class GameView implements PvZListener{
 		
 		//add undo and redo buttons
 		topPanel.add(urPanel);
-		
-		
 		contentPane.add(topPanel); // Add the the upper level UI to the content pane
-
-
 
 		// Create the map layout for the actual game
 		JPanel tPanel = new JPanel();

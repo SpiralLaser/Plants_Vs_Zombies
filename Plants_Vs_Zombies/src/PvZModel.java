@@ -22,8 +22,8 @@ public class PvZModel {
 
 	//A stack was used for the undo and redo buttons because it best simulates what is needed. Push to stack whenever a move is made, pop from the stack 
 	//if undo or redo is clicked
-	Stack<ArrayList<ArrayList<GridCell>>> undo, redo;
-	Stack<Integer> undoSunlight, redoSunlight;
+	Stack<ArrayList<ArrayList<GridCell>>> undo, redo, save;
+	Stack<Integer> undoSunlight, redoSunlight, saveSunlight;
 
 	boolean spawnBoss;
 
@@ -32,18 +32,19 @@ public class PvZModel {
 	Plant plant;
 
 	boolean lose, playerWin, zombiesAlive;
-	int numTurns, sunlight;
+	int numTurns, sunlight, numMoves;
 
 	public PvZModel()
 	{
 		pvzListener = new ArrayList<>();
 
-
+		numMoves = 0;
 		numTurns = 1;
 		sunlight = 100;
 
 		undo = new Stack<ArrayList<ArrayList<GridCell>>>();
 		redo = new Stack<ArrayList<ArrayList<GridCell>>>();
+		save = new Stack<ArrayList<ArrayList<GridCell>>>();
 
 
 		board  = new ArrayList<ArrayList<GridCell>>();
@@ -52,6 +53,7 @@ public class PvZModel {
 		spawnBoss = true;
 		undoSunlight = new Stack<Integer>();
 		redoSunlight = new Stack<Integer>();
+		saveSunlight = new Stack<Integer>();
 
 		for (int r = 0; r < 5; r++)
 		{
@@ -78,7 +80,7 @@ public class PvZModel {
 			temp.add(new ArrayList<GridCell>());
 			for (int c = 0; c < 8; c++) {
 				temp.get(r).add(new GridCell(r, c));
-				if (!board.get(r).get(c).plantEmpty()) {
+				if (!a.get(r).get(c).plantEmpty()) {
 					plant = board.get(r).get(c).getPlant();
 
 					if (plant.getID().equals("S")) {
@@ -98,7 +100,7 @@ public class PvZModel {
 					}
 					temp.get(r).get(c).addPlant(plant);
 				}
-				if (!board.get(r).get(c).zombieEmpty()) {
+				if (!a.get(r).get(c).zombieEmpty()) {
 					zombie = board.get(r).get(c).getZombie();
 
 					if (zombie.getID().equals("B")) {
@@ -136,6 +138,7 @@ public class PvZModel {
 	public void placePlantAt(int x, int y)
 	{
 		pushUndo();
+		redo.clear();
 		if (buttonClicked.equals("S")) {
 			placeSunflowerAt(x,y);
 
@@ -159,10 +162,11 @@ public class PvZModel {
 			placeWallnutAt(x,y);
 
 		}
-		
+
 		else {
-			throw new IllegalArgumentException("Not a valid plant");
+			//do nothing if a plant has not been clicked yet
 		}
+		numMoves++;
 	}
 
 	/**
@@ -315,6 +319,36 @@ public class PvZModel {
 		board.get(destination.getRow()).get(destination.getCol()).addZombie(zombie);
 	}
 
+	public void saveFeature() {
+		if (numMoves < 0 ) {	
+			JOptionPane.showMessageDialog(null, "Please make a move before saving", "No actions made yet", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else {
+			save.clear();
+			createCopy(board);
+			save.push(temp);
+			saveSunlight.push(sunlight);
+		}
+
+	}
+
+	public void loadFeature() {
+		if (save.isEmpty()) {
+
+		} else {
+			if (numMoves > 0) {
+
+				createCopy(save.peek());
+				board = temp;
+
+				sunlight = saveSunlight.peek();
+				updateWholeBoard();
+				updateSunlight();
+			}
+
+		}
+
+	}
 	/**
 	 * Before a new move is made, push the current board state to undo so that the user can undo the move. 
 	 * 1. If move is made, push current board state to undo stack, then update model and view
@@ -374,20 +408,7 @@ public class PvZModel {
 	 */
 	public void updateWholeBoard() {
 		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 8; j++) {
-				if (board.get(i).get(j).zombieEmpty()) {
-					status = Status.ZOMBIE_DIED;
-					e = new PvZEvent (this, status, gridCell, "");
-					for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-				}
-				if (!board.get(i).get(j).zombieEmpty()) {
-					status = Status.ZOMBIE_MOVING;
-					e = new PvZEvent (this, status, board.get(i).get(j), board.get(i).get(j).getZombie().getID() );
-					for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-				}
-
-
-
+			for (int j = 0; j < 8; j++) {			
 				if (!board.get(i).get(j).plantEmpty()) {
 					status = Status.PLANT_PLACED;
 					e = new PvZEvent (this, status, board.get(i).get(j), board.get(i).get(j).getPlant().getID() );
@@ -397,6 +418,12 @@ public class PvZModel {
 				if (board.get(i).get(j).plantEmpty()) {
 					status = Status.REMOVE_PLANT;
 					e = new PvZEvent (this, status, board.get(i).get(j), "");
+					for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+				}
+
+				if (!board.get(i).get(j).zombieEmpty()) {
+					status = Status.ZOMBIE_MOVING;
+					e = new PvZEvent (this, status, board.get(i).get(j), board.get(i).get(j).getZombie().getID() );
 					for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 				}
 			}
@@ -414,7 +441,7 @@ public class PvZModel {
 		if (r <0 || c <0 || r > 7 || c > 4) {
 			throw new IllegalArgumentException("Row or column cannot be less than 1, row cannot be greater than 7, and column cannot be greater than 4");
 		}
-		
+
 		for (; c<8;c++)
 		{
 			if (!board.get(r).get(c).zombieEmpty())
@@ -438,7 +465,7 @@ public class PvZModel {
 					plant = board.get(i).get(j).getPlant();
 					plant.endTurn();				
 				}
-				
+
 				//check all zombies to see if they are still alive	
 				if (!board.get(i).get(j).zombieEmpty()) {
 					zombie = board.get(i).get(j).getZombie();
@@ -459,9 +486,9 @@ public class PvZModel {
 
 					status = Status.ZOMBIE_MOVING;
 					zombie = board.get(k).get(l).getZombie();
-					
+
 					//System.out.println(zombie.getHealth());
-					
+
 					if (zombie.checkLose()) {
 						status = Status.LOST;
 						e = new PvZEvent (this, status, zombie.getGridCell(), zombie.getID());
@@ -475,7 +502,7 @@ public class PvZModel {
 
 					zombiesAlive = true;
 				}
-				
+
 				//check all plants to see if they are still alive
 				if (!board.get(k).get(l).plantEmpty()) {
 
