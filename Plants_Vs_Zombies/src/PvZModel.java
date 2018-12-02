@@ -81,7 +81,7 @@ public class PvZModel {
 			for (int c = 0; c < 8; c++) {
 				temp.get(r).add(new GridCell(r, c));
 				if (!a.get(r).get(c).plantEmpty()) {
-					plant = board.get(r).get(c).getPlant();
+					plant = a.get(r).get(c).getPlant();
 
 					if (plant.getID().equals("S")) {
 						plant = new Sunflower(plant);
@@ -101,7 +101,7 @@ public class PvZModel {
 					temp.get(r).get(c).addPlant(plant);
 				}
 				if (!a.get(r).get(c).zombieEmpty()) {
-					zombie = board.get(r).get(c).getZombie();
+					zombie = a.get(r).get(c).getZombie();
 
 					if (zombie.getID().equals("B")) {
 						zombie = new BossZombie(zombie);
@@ -319,6 +319,9 @@ public class PvZModel {
 		board.get(destination.getRow()).get(destination.getCol()).addZombie(zombie);
 	}
 
+	/**
+	 * Method for when save button is clicked
+	 */
 	public void saveFeature() {
 		if (numMoves < 0 ) {	
 			JOptionPane.showMessageDialog(null, "Please make a move before saving", "No actions made yet", JOptionPane.INFORMATION_MESSAGE);
@@ -332,6 +335,9 @@ public class PvZModel {
 
 	}
 
+	/**
+	 * Method for when load button is clicked
+	 */
 	public void loadFeature() {
 		if (save.isEmpty()) {
 
@@ -340,7 +346,6 @@ public class PvZModel {
 
 				createCopy(save.peek());
 				board = temp;
-
 				sunlight = saveSunlight.peek();
 				updateWholeBoard();
 				updateSunlight();
@@ -509,8 +514,9 @@ public class PvZModel {
 					if (!board.get(k).get(l).getPlant().isAlive()) {
 						status = Status.REMOVE_PLANT;					
 						e = new PvZEvent(this, status, plant.getGridCell(), plant.getID());
-						for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 						board.get(gridCell.getRow()).get(gridCell.getCol()).removePlant();
+						for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+
 					}
 				}
 			}
@@ -535,7 +541,7 @@ public class PvZModel {
 
 	public void updateSunlight() {
 		status = Status.UPDATE_SUNLIGHT;
-		e = new PvZEvent (this, status, gridCell, getSunlight());
+		e = new PvZEvent (this, status, new GridCell(0,0), getSunlight());
 		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 	}
 	public void increaseSunlight(int i)
