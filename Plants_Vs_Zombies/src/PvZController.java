@@ -19,7 +19,6 @@ public class PvZController implements ActionListener {
 
 	}
 
-
 	/**
 	 * What the button should do when it is clicked
 	 */
@@ -33,27 +32,19 @@ public class PvZController implements ActionListener {
 			if(((JButton) o).getText().equals("End Turn")) {
 				model.endTurn();
 			}
-
 			else if(((JButton) o).getName().equals("Undo")) {
-
 				model.popUndo();
 			}
 			else if(((JButton) o).getName().equals("Redo")) {
-
 				model.popRedo();
-			}
-			
+			}		
 			else if(((JButton) o).getName().equals("Save")) {
 				model.saveFeature();
-				
 			}
-			
 			else if(((JButton) o).getName().equals("Load")) {
-
 				model.loadFeature();
 			}
 			else if(((JButton) o).getName().equals("S")) {
-
 				model.isClicked("S");
 			}
 			else if(((JButton) o).getName().equals("P")) {

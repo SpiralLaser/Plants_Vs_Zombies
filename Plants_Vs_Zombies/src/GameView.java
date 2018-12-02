@@ -29,11 +29,11 @@ public class GameView implements PvZListener{
 	PvZModel model;
 	Timer timer; //Timer to simulate real time
 
-
 	/**
 	 * Constructor for the Game view. displays the 5x8 board with animated plants and 
 	 * zombies
 	 */
+	
 	public GameView(){
 
 		model = new PvZModel();
@@ -78,7 +78,6 @@ public class GameView implements PvZListener{
 		urLabel.setHorizontalAlignment(JLabel.CENTER);
 		topPanel.add(urLabel);
 
-
 		// Displays current sunlight
 		sunlight = new JTextField(3);
 		sunlight.setEditable(false); // This value cannot be edited
@@ -107,7 +106,6 @@ public class GameView implements PvZListener{
 		undoB.addActionListener(new PvZController(model, 10, 10));
 		urPanel.add(undoB);
 
-
 		redoB = new JButton("Redo Turn");
 		redoB.setName("Redo");
 		redoB.addActionListener(new PvZController(model, 10, 10));
@@ -134,8 +132,6 @@ public class GameView implements PvZListener{
 
 		tPanel.setPreferredSize(new Dimension(800, 800)); // Set size of the actual game window and add it
 		contentPane.add(tPanel);
-
-
 
 		// Ignore this was trying to play around with images, will prob add myself to a future version
 		// Turns out trying nicely add a strike through the images is a lot more work than expected
@@ -205,11 +201,9 @@ public class GameView implements PvZListener{
 
 		contentPane.add(buttonPanel);
 
-
 		tFrame.setResizable(false); // Don't let the board to be resized to look too ugly
 		tFrame.setVisible(true);
 		tFrame.pack();
-
 
 		timer = new Timer();
 		//schedules a new RemindTask starting at 5 seconds, every 5 seconds
@@ -241,7 +235,6 @@ public class GameView implements PvZListener{
 			buttons[tRow][tCol].setName("");
 			buttons[tRow][tCol].setIcon(null);
 			buttons[tRow][tCol].setText("");
-
 			break;
 
 		}
@@ -323,7 +316,5 @@ public class GameView implements PvZListener{
 	public static void main(String[] args)
 	{
 		GameView view = new GameView();
-
-
 	}
 }
