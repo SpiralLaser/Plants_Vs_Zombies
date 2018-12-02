@@ -1,10 +1,13 @@
-# Plants_Vs_Zombies Milestone 3
+# Plants_Vs_Zombies Milestone 4
 Authors: Kevin Sun, Tri Nhan, Leo Paz, Adam Labelle
 
 The .zip file is a direct clone from the master project in Github. Extract the contents to a new folder, then create a new Java project and set the source to that folder. Can also use other methods to import the project.
 
-Run GameView to start the game. Click any of the plants at the bottom to select the plant you want to place. After clicking one of them, click on any grid tile to plant it at that place. A zombie will spawn at a random row everytime you plant something. You can plant as many plants as you want in one turn, only after clicking end turn will the turn go to the next one. End turn will immediately end your turn and go to the next turn.
+Run GameView to start the game. Click any of the plants at the bottom to select the plant you want to place. After clicking one of them, click on any grid tile to plant it at that place. A zombie will spawn at a random row everytime you plant something. You can plant as many plants as you want in one turn, only after clicking end turn will the turn go to the next one. End turn will immediately end your turn and go to the next turn. 
 
+The game has real-time elemnts in it, every 5 seconds the game will progress to the next turn even if the user did not click end turn.
+
+The save buttton wil save the current state of the board. Loading will change the board to the last saved state. Infinite saves and loads can be done. Saving will overwrite the last save point, and loading will only load from the most recent save.
 
 PlayGame was removed because it was printing the board to the console. We incorporated the main method into GameView. PvZGame was removed because it had the same functionality as the Model. It's methods were merged into PvZModel. Location was removed because it had the same functionality as GridCell. It's methods were merged into GridCell. GameBoard was refactored to PvZModel. PvZModel incorporates all the data and methods needed for a model in a MVC structure.
 
@@ -16,12 +19,14 @@ Undo will undo your last move made and revert the board to the last state. Redo 
 Current win condition is if 15 or more turns have passed and there are no more zombies on the board, the player wins. On turn 15, a boss zombie will spawn. The boss zombie moves every 2nd turn and has 10 hp. If a zombie is already at the column 0 and the turn has ended, the player loses.
 
 Changes from last milestone:
-Graphic improvements on GUI with images of plants and zombies. More plants have been added, current roster consists of Sunflower, Peashooter, Twin Sunflower, Repeater, and Wallnut. An unlimited undo and redo button has been added.
-
-Current bugs:
-After a successful redo, plants are readded back to the view but zombies are not. However, zombies will still be in the game and you will be able to see them again after ending your turn.
+Undo and redo have been properly fixed. A save and load button has been added. The game now incorporates real-time into it. Every 5 seconds the game will progress 1  turn, so zombies will move or attack, and plants will do their actions as well.
 
 We also couldn't get the zombie animation working on time so we left it as a Z text.
+
+Current bugs:
+None
+
+
 
 
 # Contributions
@@ -44,3 +49,5 @@ A group member was responsible for a single component of the MVC for every miles
 Events and Event Handlers: Leo Paz
 
 All plants, All Zombies: Kevin Sun
+
+Undo, Redo, Save, Load, Real-time game: Kevin Sun
