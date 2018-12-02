@@ -512,9 +512,10 @@ public class PvZModel {
 				if (!board.get(k).get(l).plantEmpty()) {
 
 					if (!board.get(k).get(l).getPlant().isAlive()) {
+						plant = board.get(k).get(l).getPlant();
 						status = Status.REMOVE_PLANT;					
 						e = new PvZEvent(this, status, plant.getGridCell(), plant.getID());
-						board.get(gridCell.getRow()).get(gridCell.getCol()).removePlant();
+						board.get(k).get(l).removePlant();
 						for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 
 					}
