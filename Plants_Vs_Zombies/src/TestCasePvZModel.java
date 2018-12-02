@@ -39,6 +39,7 @@ public class TestCasePvZModel {
 			model.increaseSunlight(25);
 			assertEquals("125", model.getSunlight());
 			
+			//bad parameters
 			try {
 				model.increaseSunlight(-10);
 			} catch (IllegalArgumentException e) {
@@ -51,7 +52,8 @@ public class TestCasePvZModel {
 		 */
 		@Test
 		public void testStack() {
-			
+			model.popUndo();
+			model.popRedo();
 			//checking undo stack before and after pushing
 			assertEquals(true, model.undo.isEmpty());
 			model.pushUndo();
@@ -78,6 +80,7 @@ public class TestCasePvZModel {
 				
 				assertEquals("Z", model.findZombie(1, 1).getZombie().getID());
 				
+				//bad input parameters
 				try{
 					model.findZombie(10, 10);
 				} catch (IllegalArgumentException e) {
@@ -99,6 +102,7 @@ public class TestCasePvZModel {
 			model.decreaseSunlight(10);
 			assertEquals(model.getSunlight(), "90");
 			
+			//bad input parameters
 			try {
 				model.increaseSunlight(-10);
 			} catch (IllegalArgumentException e) {
@@ -111,7 +115,7 @@ public class TestCasePvZModel {
 		 */
 		@Test 
 		public void testPlacePlants() {
-			model.increaseSunlight(1000);
+
 			model.isClicked("S");
 			gridCell = new GridCell(1,1);
 			model.placePlantAt(1, 1);
@@ -125,15 +129,24 @@ public class TestCasePvZModel {
 			model.isClicked("R");
 			gridCell = new GridCell(1,3);
 			model.placePlantAt(1, 3);
+			
+			model.increaseSunlight(200);			
+			model.placePlantAt(1, 3);
 			assertEquals("R", model.getCell(gridCell).getPlant().getID());
 			
 			model.isClicked("T");
 			gridCell = new GridCell(1,4);
 			model.placePlantAt(1, 4);
+			
+			model.increaseSunlight(150);
+			model.placePlantAt(1, 4);
 			assertEquals("T", model.getCell(gridCell).getPlant().getID());
 			
 			model.isClicked("W");
 			gridCell = new GridCell(1,5);
+			model.placePlantAt(1, 5);
+			
+			model.increaseSunlight(200);
 			model.placePlantAt(1, 5);
 			assertEquals("W", model.getCell(gridCell).getPlant().getID());
 		}
@@ -145,9 +158,19 @@ public class TestCasePvZModel {
 			gridCell = new GridCell(3,3);
 			model.placeSunflowerAt(1, 1);
 
-			Zombie zombie = new Zombie(gridCell, model);
+			BossZombie zombie = new BossZombie(gridCell, model);
 			model.spawnZombieAt(zombie, gridCell);
+			model.endTurn();
 			model.endTurn();
 		}
 
+		@Test
+		public void testSaveLoad() {
+			assertEquals(true, model.save.isEmpty());
+			model.saveFeature();
+			assertEquals(false, model.save.isEmpty());
+			
+			model.numMoves = 1;
+			model.loadFeature();
+		}
 }
