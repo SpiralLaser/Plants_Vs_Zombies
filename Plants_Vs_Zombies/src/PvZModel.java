@@ -8,17 +8,14 @@ import javax.swing.JOptionPane;
 public class PvZModel {
 
 	/**
-	 * Constructor method for Model. Creates an 8x5 board and a new PvZGame.
+	 * Constructor method for Model. Creates an 8x5 board and a new PvZGame. 
 	 * @author Kevin Sun
 	 */
+
 	private List<PvZListener> pvzListener;
 
 	//A nested arraylist was used to simulate a 2D board.
 	ArrayList<ArrayList<GridCell>> board, temp;
-	/**
-	 * Reflection: Originally we planned on using a 2D arraylist, however we decided to go with a nested arraylist, with a custom cell object contained in the inner
-	 * arraylist. Both serve the same purpose and it did not matter which data structure we used.
-	 */
 	String buttonClicked = new String();
 	Zombie zombie;
 	GridCell gridCell;
@@ -35,10 +32,11 @@ public class PvZModel {
 	Plant plant;
 
 	boolean lose, playerWin, zombiesAlive;
-	int numTurns, sunlight, numMoves;
+	int numTurns, sunlight, numMoves, numZombies;
 
-	public PvZModel()
+	public PvZModel(int i)
 	{
+		numZombies = i;
 		pvzListener = new ArrayList<>();
 
 		numMoves = 0;
@@ -172,28 +170,32 @@ public class PvZModel {
 	 * Finishes the rest of the functionality when a plant is placed. Spawns a zombie and updates sunlight.
 	 */
 	public void placePlantHelper() {
-		//create a zombie at a random row only when a plant is placed
-		gridCell = new GridCell(randomRowNum(),7);
+		if (!spawnBoss) {
+			
+		} else {
+			//create a zombie at a random row only when a plant is placed
+			gridCell = new GridCell(randomRowNum(),7);
 
-		//spawns boss once if past turn 15, otherwise spawn a normal zombie
-		if (spawnBoss == true && numTurns >= 15) {
-			zombie = new BossZombie(gridCell, this);
-			spawnBoss = false;
+			//spawns boss once past number of specified zombies, otherwise spawn a normal zombie
+			if (numTurns >= numZombies) {
+				zombie = new BossZombie(gridCell, this);
+				spawnBoss = false;
+			}
+			else {
+				zombie = new Zombie(gridCell, this);
+			}
+
+			this.spawnZombieAt(zombie, gridCell);
+
+			status = Status.ZOMBIE_MOVING;
+			e = new PvZEvent (this, status, gridCell, zombie.getID());
+			for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
 		}
-		else {
-			zombie = new Zombie(gridCell, this);
-		}
-
-		this.spawnZombieAt(zombie, gridCell);
-
-		status = Status.ZOMBIE_MOVING;
-		e = new PvZEvent (this, status, gridCell, zombie.getID());
-		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
-
 		//update sunlight counter
 		status = Status.UPDATE_SUNLIGHT;
 		e = new PvZEvent (this, status, gridCell, getSunlight());
 		for (PvZListener pvzEvent: pvzListener) pvzEvent.handlePvZEvent(e);
+		numTurns++;
 	}
 
 	/**
@@ -328,6 +330,7 @@ public class PvZModel {
 			createCopy(board);
 			save.push(temp);
 			saveSunlight.push(sunlight);
+			JOptionPane.showMessageDialog(null, "You have successfully saved the game", "Save Successful", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 	}
@@ -337,22 +340,23 @@ public class PvZModel {
 	 */
 	public void loadFeature() {
 		if (save.isEmpty()) {
-
+			JOptionPane.showMessageDialog(null, "There is nothing to load", "Load Failed", JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			if (numMoves > 0) {
+			if (numMoves >= 0) {
 
 				createCopy(save.peek());
 				board = temp;
 				sunlight = saveSunlight.peek();
 				updateWholeBoard();
 				updateSunlight();
+				JOptionPane.showMessageDialog(null, "Load finished", "Load", JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
 	
 	/**
 	 * Before a new move is made, push the current board state to undo so that the user can undo the move. 
-	 * 1. If move is made, push current board state to undo stack, then update model and view
+	 * 1. If move is made, push current board state to undo stack, clear redo stack, then update model and view
 	 * 2. If undo is clicked, push current board state to redo stack, then set board state to popped undo
 	 * 3. If redo is clicked, push current board state to undo stack, then set board state to popped redo
 	 */
@@ -510,9 +514,8 @@ public class PvZModel {
 			}
 		}
 
-
 		//end of wave condition. Only if number of turns has reached a certain point and there are no more zombies on the board
-		if (numTurns >= 15 && !spawnBoss && !zombiesAlive )
+		if (numTurns >= numZombies && !spawnBoss && !zombiesAlive )
 		{
 			status = Status.WON;
 			e = new PvZEvent (this, status, gridCell, "Z");
@@ -521,7 +524,6 @@ public class PvZModel {
 
 		increaseSunlight(25);
 		updateSunlight();
-		numTurns++;
 		zombiesAlive = false;
 	}
 

@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -7,6 +10,7 @@ import java.util.TimerTask;
  * @author Tri Nhan
  *
  */
+
 public class GameView implements PvZListener{
 
 	private JLabel pText; // Label for different plants
@@ -25,6 +29,10 @@ public class GameView implements PvZListener{
 	private JButton save, load;
 	private JButton nextTurnButton; //Button to enter next game turn
 	private JButton peaPlant, sunPlant, wallPlant, twinPlant, repPlant;
+	
+	private int numZombies;
+	private String input;
+	JFrame tFrame;
 
 	PvZModel model;
 	Timer timer; //Timer to simulate real time
@@ -35,13 +43,24 @@ public class GameView implements PvZListener{
 	 */
 	
 	public GameView(){
-
-		model = new PvZModel();
+		numZombies = 0;
+		input = "";
+		
+		//Input Dialog box to get the user's choice of how many zombies to spawn
+		while (input == null || (numZombies <= 0 && !isInteger(input)) ) {
+			if (input == null) {
+				System.exit(1);
+			}
+			input= JOptionPane.showInputDialog("Put in how many zombies you want spawned");
+			
+		}
+		numZombies = Integer.parseInt(input);
+		model = new PvZModel(numZombies);
 		model.addPvZListener(this);
 
 		buttons = new JButton[5][8];   
 
-		JFrame tFrame = new JFrame("Plants Vs. Zombies");
+		tFrame = new JFrame("Plants Vs. Zombies");
 		tFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //quit program when closing
 
 		Container contentPane = tFrame.getContentPane();
@@ -57,9 +76,20 @@ public class GameView implements PvZListener{
 
 		//Create menu item "Quit" and add to the menu
 		quitItem = new JMenuItem("Quit");
+		quitItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+			    System.exit(1);
+			  } 
+		});
 		fileMenu.add(quitItem);
 
 		newItem = new JMenuItem("New/Reset Game");
+		newItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) { 
+				tFrame.dispose();
+			    GameView view = new GameView();
+			  } 
+		});
 		fileMenu.add(newItem);  
 
 
@@ -130,7 +160,7 @@ public class GameView implements PvZListener{
 			}
 		}
 
-		tPanel.setPreferredSize(new Dimension(800, 800)); // Set size of the actual game window and add it
+		tPanel.setPreferredSize(new Dimension(600, 700)); // Set size of the actual game window and add it
 		contentPane.add(tPanel);
 
 		// Ignore this was trying to play around with images, will prob add myself to a future version
@@ -312,6 +342,21 @@ public class GameView implements PvZListener{
 		case UPDATE_SUNLIGHT: sunlight.setText(e.getType()); break;
 		}
 	}
+	
+    public static boolean isInteger(Object object) {
+    	if(object instanceof Integer) {
+    		return true;
+    	} else {
+    		String string = object.toString();
+    		
+    		try {
+    			Integer.parseInt(string);
+    		} catch(Exception e) {
+    			return false;
+    		}	
+    	}  
+        return true;
+    }
 
 	public static void main(String[] args)
 	{

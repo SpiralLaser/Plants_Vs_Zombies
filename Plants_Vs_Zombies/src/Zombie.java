@@ -1,6 +1,6 @@
 	
 /** Zombie superclass for all zombies
-	 * @author Leo Paz
+	 * @author Leo Paz, Kevin Sun
 	 * */
 public class Zombie {	
 	/* The zombie's health */

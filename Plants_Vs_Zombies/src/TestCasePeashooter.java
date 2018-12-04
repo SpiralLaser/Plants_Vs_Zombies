@@ -16,7 +16,7 @@ public class TestCasePeashooter {
 		@Before
 		public void setUp() throws Exception {
 			this.gridCell = new GridCell(5,5);
-			this.model = new PvZModel();
+			this.model = new PvZModel(1);
 			this.peashooters = new Peashooter(gridCell,model);
 		}
 

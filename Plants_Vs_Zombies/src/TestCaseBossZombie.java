@@ -17,7 +17,7 @@ public class TestCaseBossZombie {
 	@Before
 	public void setUp() throws Exception {
 		this.gridCell = new GridCell(POSTITON, POSTITON);
-		this.model = new PvZModel();
+		this.model = new PvZModel(2);
 		this.zombies = new BossZombie(gridCell, model);
 	}
 

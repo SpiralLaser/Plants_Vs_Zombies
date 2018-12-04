@@ -6,6 +6,7 @@ import javax.swing.JButton;
  * @author Leo Paz
  *
  */
+
 public class PvZController implements ActionListener {
 
 	private PvZModel model;
@@ -16,7 +17,6 @@ public class PvZController implements ActionListener {
 		this.model = model;
 		this.x = x;
 		this.y = y;
-
 	}
 
 	/**

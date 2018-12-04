@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 public class GridCell {
 
 	private LinkedList<Zombie> zombies;
@@ -80,16 +81,6 @@ public class GridCell {
 			throw new IllegalArgumentException("No zombies in this gridcell");
 		}
 		return zombies.removeFirst();
-	}
-
-	/**
-	 * Removes the zombie at the start of the list as if it died
-	 */
-	public void removeAndKillZombie() {
-		if (zombieEmpty()) {
-			throw new IllegalArgumentException("No zombies in this gridcell");
-		}
-		zombies.removeFirst();
 	}
 	
 	/**

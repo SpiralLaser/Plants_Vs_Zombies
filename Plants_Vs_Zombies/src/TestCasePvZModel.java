@@ -14,7 +14,7 @@ public class TestCasePvZModel {
 	
 		@Before
 		public void setUp() throws Exception {
-			this.model = new PvZModel();
+			this.model = new PvZModel(2);
 			
 		}
 
@@ -46,6 +46,28 @@ public class TestCasePvZModel {
 				
 			}
 		}
+
+		/**
+		 * Checks get decrease Sunlight
+		 */
+		@Test
+		public void testdecreaseSunlight() {
+			model.decreaseSunlight(10);
+			assertEquals(model.getSunlight(), "90");
+			
+			//bad input parameters
+			try {
+				model.increaseSunlight(-10);
+			} catch (IllegalArgumentException e) {
+				
+			}
+		}
+		
+		
+		/**
+		 * Tests from this line onwards were made by Kevin Sun
+		 */
+		
 		
 		/**
 		 * Checks if pushing and popping the stack works
@@ -72,6 +94,9 @@ public class TestCasePvZModel {
 			assertEquals(false, model.undo.isEmpty());
 		}
 		
+		/**
+		 * Testing finding the first zombie in that row
+		 */
 		@Test
 		public void testFindZombie() {			
 				gridCell = new GridCell(1,1);
@@ -92,22 +117,6 @@ public class TestCasePvZModel {
 					
 				}
 			
-		}
-		
-		/**
-		 * Checks get decrease Sunlight
-		 */
-		@Test
-		public void testdecreaseSunlight() {
-			model.decreaseSunlight(10);
-			assertEquals(model.getSunlight(), "90");
-			
-			//bad input parameters
-			try {
-				model.increaseSunlight(-10);
-			} catch (IllegalArgumentException e) {
-				
-			}
 		}
 		
 		/**
@@ -151,7 +160,10 @@ public class TestCasePvZModel {
 			assertEquals("W", model.getCell(gridCell).getPlant().getID());
 		}
 
-		
+
+		/**
+		 * Testing ending the turn
+		 */
 		@Test
 		public void testEndTurn() {
 
@@ -164,6 +176,9 @@ public class TestCasePvZModel {
 			model.endTurn();
 		}
 
+		/**
+		 * Testing if save and load works
+		 */
 		@Test
 		public void testSaveLoad() {
 			assertEquals(true, model.save.isEmpty());

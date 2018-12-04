@@ -18,7 +18,7 @@ public class TestCaseRepeater {
 	@Before
 	public void setUp() throws Exception {
 		this.gridCell = new GridCell(POSTITON, POSTITON); //Grid Position
-		this.model = new PvZModel();
+		this.model = new PvZModel(1);
 		this.repeat = new Repeater(gridCell, model);
 	}
 
