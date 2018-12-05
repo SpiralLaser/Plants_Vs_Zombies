@@ -5,12 +5,9 @@ The .zip file is a direct clone from the master project in Github. Extract the c
 
 Run GameView to start the game. Click any of the plants at the bottom to select the plant you want to place. After clicking one of them, click on any grid tile to plant it at that place. A zombie will spawn at a random row everytime you plant something. You can plant as many plants as you want in one turn, only after clicking end turn will the turn go to the next one. End turn will immediately end your turn and go to the next turn. 
 
-The game has real-time elemnts in it, every 5 seconds the game will progress to the next turn even if the user did not click end turn.
+The game has real-time elements in it, every 5 seconds the game will progress to the next turn even if the user did not click end turn.
 
-The save buttton wil save the current state of the board. Loading will change the board to the last saved state. Infinite saves and loads can be done. Saving will overwrite the last save point, and loading will only load from the most recent save.
-
-PlayGame was removed because it was printing the board to the console. We incorporated the main method into GameView. PvZGame was removed because it had the same functionality as the Model. It's methods were merged into PvZModel. Location was removed because it had the same functionality as GridCell. It's methods were merged into GridCell. GameBoard was refactored to PvZModel. PvZModel incorporates all the data and methods needed for a model in a MVC structure.
-
+The save buttton will save the current state of the board. Loading will change the board to the last saved state. Infinite saves and loads can be done. Saving will overwrite the last save point, and loading will only load from the most recent save.
 
 End turn will make all units on the board perform their end of turn functions. A zombie will move one space to the left. A sunflower will produce 1 sunlight every turn, a peashooter will do 1 damage if there is a zombie in it's row. A zombie will do 1 damage if there is a plant in front of it, otherwise it will move 1 space each turn. Currently, all plants except wallnut only have 2 hp, while Wallnut has 3 hp, and zombies have 4 hp, 
 
@@ -18,10 +15,11 @@ Undo will undo your last move made and revert the board to the last state. Redo 
 
 Current win condition is if 15 or more turns have passed and there are no more zombies on the board, the player wins. On turn 15, a boss zombie will spawn. The boss zombie moves every 2nd turn and has 10 hp. If a zombie is already at the column 0 and the turn has ended, the player loses.
 
-Changes from last milestone:
-Undo and redo have been properly fixed. A save and load button has been added. The game now incorporates real-time into it. Every 5 seconds the game will progress 1  turn, so zombies will move or attack, and plants will do their actions as well.
 
-We also couldn't get the zombie animation working on time so we left it as a Z text.
+# Changes from last milestone:
+Undo and redo have been properly fixed. A save and load button has been added. The game now incorporates real-time into it: Every 5 seconds the game will progress 1  turn, so zombies will move or attack, and plants will do their actions as well.
+
+We also couldn't get the zombie animation working in time so we left it as a Z text.
 
 Current bugs:
 None
