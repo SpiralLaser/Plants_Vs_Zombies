@@ -10,8 +10,11 @@ public class Sunflower extends Plant {
 	public Sunflower(GridCell initialGridCell, PvZModel newGame) {
 
 		super(initialGridCell, newGame);
-        gridCell = initialGridCell;
 		game = newGame;
+	}
+	
+	public Sunflower(Plant p) {
+		this(p.getGridCell(), p.getGame());
 	}
 	
     /**

@@ -10,8 +10,11 @@ public class Peashooter extends Plant {
 	public Peashooter(GridCell initialGridCell, PvZModel newGame) {
 
 		super(initialGridCell, newGame);
-        gridCell = initialGridCell;
 		game = newGame;
+	}
+	
+	public Peashooter(Plant p) {
+		this(p.getGridCell(), p.getGame());
 	}
 	
     /**
@@ -30,8 +33,9 @@ public class Peashooter extends Plant {
     	GridCell cell = game.findZombie(this.getGridCell().getRow(), this.getGridCell().getCol());
     	if (cell != null)
     	{
-    		Zombie firstZomb = cell.getZombie();
-    		firstZomb.zombieHit(1);
+    		game.getCell(cell).getZombie().zombieHit(1);
+    		//System.out.println("Hit zombie at " + game.getCell(cell).getRow() + ", " + game.getCell(cell).getCol());
+
     	}
     	
     }

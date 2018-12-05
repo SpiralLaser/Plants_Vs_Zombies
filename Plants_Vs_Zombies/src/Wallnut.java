@@ -10,9 +10,12 @@ public class Wallnut extends Plant {
 	public Wallnut(GridCell initialGridCell, PvZModel newGame) {
 
 		super(initialGridCell, newGame);
-        gridCell = initialGridCell;
 		game = newGame;
 		this.setHealth(3);
+	}
+	
+	public Wallnut(Plant p) {
+		this(p.getGridCell(), p.getGame());
 	}
 	
     /**

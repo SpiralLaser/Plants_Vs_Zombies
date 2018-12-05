@@ -3,12 +3,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TestCaseSunflower {
+public class TestCaseWallnut {
 
 	// Variables and Objects used for Testing
 	GridCell gridCell;
 	PvZModel model;
-	Sunflower sunflowers;
+	Wallnut wallnut;
 	int POSTITON = 5;
 
 	/**
@@ -19,18 +19,18 @@ public class TestCaseSunflower {
 	public void setUp() throws Exception {
 		this.gridCell = new GridCell(POSTITON, POSTITON); //Grid Position
 		this.model = new PvZModel(1,4);
-		this.sunflowers = new Sunflower(gridCell, model);
+		this.wallnut = new Wallnut(gridCell, model);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		this.sunflowers = null;
+		this.wallnut = null;
 	}
 	/**
 	 * Checks Get ID
 	 */
 	@Test
 	public void testGetID() {
-		assertEquals(sunflowers.getID(), "S");
-	}
+		assertEquals(wallnut.getID(), "W");
+	}	
 }

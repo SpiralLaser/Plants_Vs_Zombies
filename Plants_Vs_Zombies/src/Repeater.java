@@ -10,8 +10,11 @@ public class Repeater extends Plant {
 	public Repeater(GridCell initialGridCell, PvZModel newGame) {
 
 		super(initialGridCell, newGame);
-        gridCell = initialGridCell;
 		game = newGame;
+	}
+	
+	public Repeater(Plant p) {
+		this(p.getGridCell(), p.getGame());
 	}
 	
     /**

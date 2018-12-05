@@ -17,8 +17,8 @@ public class TestCaseZombie {
 	@Before
 	public void setUp() throws Exception {
 		this.gridCell = new GridCell(POSTITON, POSTITON);
-		this.model = new PvZModel();
-		this.zombies = new Zombie(gridCell, model);
+		this.model = new PvZModel(1,4);
+		this.zombies = new Zombie(4, gridCell, model);
 	}
 
 	@After
@@ -33,6 +33,12 @@ public class TestCaseZombie {
 	public void testsetHealth() {
 		zombies.setHealth(10); // Set Health
 		assertEquals(zombies.getHealth(), 10);
+		
+		try {
+			zombies.setHealth(-10);
+		} catch (IllegalArgumentException e) {
+			
+		}
 	}
 
 	/**
@@ -40,7 +46,7 @@ public class TestCaseZombie {
 	 */
 	@Test
 	public void TestgetHealth() {
-		assertEquals(zombies.getHealth(), 3);
+		assertEquals(zombies.getHealth(), 4);
 	}
 
 	/**
@@ -49,7 +55,13 @@ public class TestCaseZombie {
 	@Test
 	public void TestTakeDamage() {
 		zombies.zombieHit(2); //Take two away
-		assertEquals(zombies.getHealth(), 1);
+		assertEquals(zombies.getHealth(), 2);
+		
+		try {
+			zombies.zombieHit(-1);
+		} catch (IllegalArgumentException e) {
+			
+		}
 	}
 
 	/**
@@ -69,8 +81,7 @@ public class TestCaseZombie {
 
 		// Losing Zombie
 		this.gridCell = new GridCell(0, 0); // Lose Cords
-		this.model = new PvZModel();
-		this.zombies = new Zombie(gridCell, model);
+		this.zombies = new Zombie(4, gridCell, model);
 		assertEquals(zombies.checkLose(), true);
 	}
 

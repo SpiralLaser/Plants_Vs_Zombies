@@ -1,6 +1,6 @@
 	
 /** Zombie superclass for all zombies
-	 * @author Leo Paz
+	 * @author Leo Paz, Kevin Sun
 	 * */
 public class Zombie {	
 	/* The zombie's health */
@@ -11,12 +11,16 @@ public class Zombie {
 	
 	
 
-	public Zombie (GridCell initialGridCell, PvZModel newGame) {		
+	public Zombie (int i, GridCell initialGridCell, PvZModel newGame) {		
 
-		zombieHealth = 4;
+		zombieHealth = i;
 
 		GridCell = initialGridCell;
 		game = newGame;
+	}
+	
+	public Zombie (Zombie z) {
+		this(z.getHealth(), z.getGridCell(), z.getGame());
 	}
 	
 	/*
