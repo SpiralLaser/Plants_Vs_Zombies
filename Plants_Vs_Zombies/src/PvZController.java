@@ -10,8 +10,8 @@ import javax.swing.JButton;
 public class PvZController implements ActionListener {
 
 	private PvZModel model;
-	private int x;
-	private int y;
+	int x;
+	int y;
 
 	public PvZController(PvZModel model, int x, int y) {
 		this.model = model;

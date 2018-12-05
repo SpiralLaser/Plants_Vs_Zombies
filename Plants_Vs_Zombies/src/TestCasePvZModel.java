@@ -14,7 +14,7 @@ public class TestCasePvZModel {
 	
 		@Before
 		public void setUp() throws Exception {
-			this.model = new PvZModel(2);
+			this.model = new PvZModel(2, 4);
 			
 		}
 
@@ -100,7 +100,7 @@ public class TestCasePvZModel {
 		@Test
 		public void testFindZombie() {			
 				gridCell = new GridCell(1,1);
-				Zombie zombie = new Zombie(gridCell, model);
+				Zombie zombie = new Zombie(4, gridCell, model);
 				model.spawnZombieAt(zombie, gridCell);
 				
 				assertEquals("Z", model.findZombie(1, 1).getZombie().getID());
@@ -170,7 +170,7 @@ public class TestCasePvZModel {
 			gridCell = new GridCell(3,3);
 			model.placeSunflowerAt(1, 1);
 
-			BossZombie zombie = new BossZombie(gridCell, model);
+			BossZombie zombie = new BossZombie(4, gridCell, model);
 			model.spawnZombieAt(zombie, gridCell);
 			model.endTurn();
 			model.endTurn();

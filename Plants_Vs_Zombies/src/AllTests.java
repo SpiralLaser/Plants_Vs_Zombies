@@ -7,7 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ TestCaseGridCell.class, TestCasePeashooter.class,
 		TestCasePlant.class, TestCasePvZModel.class, TestCaseSunflower.class,
 		TestCaseZombie.class, TestCaseBossZombie.class, TestCaseRepeater.class, 
-		TestCaseWallnut.class})
+		TestCaseWallnut.class, TestCaseViewController.class})
 public class AllTests {
 
 }

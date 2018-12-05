@@ -18,9 +18,9 @@ public class TestCaseGridCell {
 	@Before
 	public void setUp() throws Exception {
 		this.plant = new Peashooter(gridCell, model);
-		this.model = new PvZModel(2);
+		this.model = new PvZModel(2, 4);
 		this.gridCell = new GridCell(POSITION, POSITION);
-		this.zombie = new Zombie(gridCell, model);
+		this.zombie = new Zombie(4, gridCell, model);
 	}
 
 	@After

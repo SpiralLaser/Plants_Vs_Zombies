@@ -30,8 +30,8 @@ public class GameView implements PvZListener{
 	private JButton nextTurnButton; //Button to enter next game turn
 	private JButton peaPlant, sunPlant, wallPlant, twinPlant, repPlant;
 	
-	private int numZombies;
-	private String input;
+	int numZombies, zombieHealth;
+	String input;
 	JFrame tFrame;
 
 	PvZModel model;
@@ -44,18 +44,35 @@ public class GameView implements PvZListener{
 	
 	public GameView(){
 		numZombies = 0;
+		zombieHealth = 0;
 		input = "";
 		
 		//Input Dialog box to get the user's choice of how many zombies to spawn
-		while (input == null || (numZombies <= 0 && !isInteger(input)) ) {
+		while (input == null || !isInteger(input) || numZombies <= 0 ) {
+
+			input= JOptionPane.showInputDialog("Put in how many zombies you want spawned");
+			//if user clicks cancel, input is null
 			if (input == null) {
 				System.exit(1);
 			}
-			input= JOptionPane.showInputDialog("Put in how many zombies you want spawned");
+			//if user actually types in an integer, save it, otherwise prompt user again
+			if (isInteger(input)) {
+				numZombies = Integer.parseInt(input);
+			}
+		}
+
+		input = "";
+		while (input == null || !isInteger(input) || zombieHealth <= 0  ) {
+			input= JOptionPane.showInputDialog("Put in how much health the zombies should have");
+			if (input == null) {
+				System.exit(1);
+			}
+			if (isInteger(input)) {
+				zombieHealth = Integer.parseInt(input);
+			}
 			
 		}
-		numZombies = Integer.parseInt(input);
-		model = new PvZModel(numZombies);
+		model = new PvZModel(numZombies, zombieHealth);
 		model.addPvZListener(this);
 
 		buttons = new JButton[5][8];   

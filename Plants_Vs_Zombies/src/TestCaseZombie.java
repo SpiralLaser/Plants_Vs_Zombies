@@ -17,8 +17,8 @@ public class TestCaseZombie {
 	@Before
 	public void setUp() throws Exception {
 		this.gridCell = new GridCell(POSTITON, POSTITON);
-		this.model = new PvZModel(1);
-		this.zombies = new Zombie(gridCell, model);
+		this.model = new PvZModel(1,4);
+		this.zombies = new Zombie(4, gridCell, model);
 	}
 
 	@After
@@ -81,7 +81,7 @@ public class TestCaseZombie {
 
 		// Losing Zombie
 		this.gridCell = new GridCell(0, 0); // Lose Cords
-		this.zombies = new Zombie(gridCell, model);
+		this.zombies = new Zombie(4, gridCell, model);
 		assertEquals(zombies.checkLose(), true);
 	}
 

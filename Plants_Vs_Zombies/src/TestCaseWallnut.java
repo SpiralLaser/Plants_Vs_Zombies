@@ -18,7 +18,7 @@ public class TestCaseWallnut {
 	@Before
 	public void setUp() throws Exception {
 		this.gridCell = new GridCell(POSTITON, POSTITON); //Grid Position
-		this.model = new PvZModel(1);
+		this.model = new PvZModel(1,4);
 		this.wallnut = new Wallnut(gridCell, model);
 	}
 

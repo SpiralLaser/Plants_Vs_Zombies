@@ -9,15 +9,15 @@ public class BossZombie extends Zombie {
 	private int moveTurn;
 	private PvZModel game;
 	
-	public BossZombie(GridCell initialGridCell, PvZModel newGame) {
-		super(initialGridCell, newGame);
+	public BossZombie(int i, GridCell initialGridCell, PvZModel newGame) {
+		super(10,initialGridCell, newGame);
 		this.setHealth(10);
 		game = this.getGame();
 		moveTurn = 0;
 	}
 	
 	public BossZombie(Zombie z) {
-		this(z.getGridCell(), z.getGame());
+		this(z.getHealth(),z.getGridCell(), z.getGame());
 	}
 	
 	/**

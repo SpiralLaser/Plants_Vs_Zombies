@@ -32,11 +32,12 @@ public class PvZModel {
 	Plant plant;
 
 	boolean lose, playerWin, zombiesAlive;
-	int numTurns, sunlight, numMoves, numZombies;
+	int numTurns, sunlight, numMoves, numZombies, zombieHealth;
 
-	public PvZModel(int i)
+	public PvZModel(int i, int j)
 	{
 		numZombies = i;
+		zombieHealth = j;
 		pvzListener = new ArrayList<>();
 
 		numMoves = 0;
@@ -178,11 +179,11 @@ public class PvZModel {
 
 			//spawns boss once past number of specified zombies, otherwise spawn a normal zombie
 			if (numTurns >= numZombies) {
-				zombie = new BossZombie(gridCell, this);
+				zombie = new BossZombie(zombieHealth,gridCell, this);
 				spawnBoss = false;
 			}
 			else {
-				zombie = new Zombie(gridCell, this);
+				zombie = new Zombie(zombieHealth,gridCell, this);
 			}
 
 			this.spawnZombieAt(zombie, gridCell);
