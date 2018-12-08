@@ -439,8 +439,8 @@ public class PvZModel {
 	 */
 	public GridCell findZombie(int r, int c)
 	{
-		if (r <0 || c <0 || r > 7 || c > 4) {
-			throw new IllegalArgumentException("Row or column cannot be less than 1, row cannot be greater than 7, and column cannot be greater than 4");
+		if (r <0 || c <0 || r > 4 || c > 7) {
+			throw new IllegalArgumentException("Row or column cannot be less than 1, row cannot be greater than 7, \n and column cannot be greater than 4");
 		}
 
 		for (; c<8;c++)
